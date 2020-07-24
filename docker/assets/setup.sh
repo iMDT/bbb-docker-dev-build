@@ -80,7 +80,9 @@ su bigbluebutton -c bash -l << 'EOF'
         updateOptions := updateOptions.value.withCachedResolution(true)
     ' > $HOME/.sbt/1.0/global.sbt
 
-    # Build source artifacts ( causing caches to be filled )
+    # Build source artifacts ( test the above setup - disabled after first test )
+    exit 0
+
     cd ~
     git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
      
