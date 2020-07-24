@@ -1,0 +1,10 @@
+version: 2
+jobs:
+ build:
+   machine: true
+   steps:
+     - checkout
+     - run: |
+         sudo ./build.sh "$CERT_FULLCHAIN_URL" "$CERT_PRIVKEY_URL"
+     - run: |
+         sudo ./publish.sh "$DOCKER_USER" "$DOCKER_PASS" "$CIRCLE_BUILD_NUM"

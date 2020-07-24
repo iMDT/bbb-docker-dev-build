@@ -1,0 +1,28 @@
+Origin: BigBlueButton
+Label: BigBlueButton
+Codename: bigbluebutton-bionic
+Date: Thu, 23 Jul 2020 19:14:51 UTC
+Architectures: i386 amd64
+Components: main
+Description: BigBlueButton APT Repository
+MD5Sum:
+ f59383f15456e05d74f02fdb0b16831d 1644 main/binary-i386/Packages
+ 4f320ee98f6bba32209fbe8d35155526 717 main/binary-i386/Packages.gz
+ 8b41d0d9b49630762c6558ce5d361c69 120 main/binary-i386/Release
+ 534fcc4f278b006ae1d293e2915a36b0 11724 main/binary-amd64/Packages
+ 235bf9fdba176e47a188da6eef51ddc2 3665 main/binary-amd64/Packages.gz
+ 56341df03caf409f22daa4774b63b405 121 main/binary-amd64/Release
+SHA1:
+ 9d9fd599aac3445a0eab748d78c0707d32704d0b 1644 main/binary-i386/Packages
+ 00d9d79858c93e508100e04370eac35b735fe7ac 717 main/binary-i386/Packages.gz
+ adc35ab4d7a31c820f4b086fcc6783e653cd10b6 120 main/binary-i386/Release
+ f41373442b85d393fb3d8728fd3f023a3a91a994 11724 main/binary-amd64/Packages
+ 869c4788fe9ce036ded9fc483a6be2259854c6ee 3665 main/binary-amd64/Packages.gz
+ 830ec455859e617c654e34b2d97ccab182a640b1 121 main/binary-amd64/Release
+SHA256:
+ 4793c5bf5f056954e81ed1da8d6679db160af3d25ed1ce9b520d2d02029d2e49 1644 main/binary-i386/Packages
+ 88dacbdf4841d2285febf552ba257254c189e9a40826a89fbc072bce2322ca9b 717 main/binary-i386/Packages.gz
+ 8b424315496b061b64d2fd8650b519386793b7d86af9b0ba3200796650371f18 120 main/binary-i386/Release
+ c2a4d51e2593d6303eb29ebde4d4ef4a3f2b880fe090b4c596cdd997e2f516b1 11724 main/binary-amd64/Packages
+ 48fe939fd95e60476c2e366a23a910a9aefc8b1a68a8bf2d665d2469329184c3 3665 main/binary-amd64/Packages.gz
+ 09281840b7b0a713e1a722e62f48a8cc836712c91100151e63871745fea5ec98 121 main/binary-amd64/Release
