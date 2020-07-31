@@ -2,6 +2,10 @@
 BBB_HOST=`cat /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties | grep 'bigbluebutton.web.serverURL='  | awk -F '://' '{print $2}'`
 THIS_HOST=`hostname -f`
 
+rm -rf /etc/letsencrypt/
+mkdir /etc/letsencrypt/live/`hostname -f` -p
+mount --bind /local/certs/ /etc/letsencrypt/live/`hostname -f`
+
 if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
         sed -i 's/'$BBB_HOST'/'$THIS_HOST'/g' /etc/nginx/sites-available/bigbluebutton
         sed -i 's/'$BBB_HOST'/'$THIS_HOST'/g' /etc/bigbluebutton/nginx/sip.nginx
