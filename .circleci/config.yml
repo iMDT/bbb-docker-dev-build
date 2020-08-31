@@ -7,4 +7,6 @@ jobs:
      - run: |
          sudo ./build.sh "$CERT_FULLCHAIN_URL" "$CERT_PRIVKEY_URL"
      - run: |
-         sudo ./publish.sh "$DOCKER_USER" "$DOCKER_PASS" "$CIRCLE_BUILD_NUM"
+         no_output_timeout: 30m
+         command: sudo ./publish.sh "$DOCKER_USER" "$DOCKER_PASS" "$CIRCLE_BUILD_NUM"
+
