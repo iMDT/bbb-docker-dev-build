@@ -13,3 +13,6 @@ if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
 else
    /usr/bin/bbb-conf --restart
 fi;
+
+LOCAL_IP=`ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v ^127` 
+sed 's/data="local_ip_v4=.*"/data="local_ip_v4='$LOCAL_IP'"/g' /opt/freeswitch/conf/vars.xml
