@@ -54,6 +54,12 @@ bbb-conf --restart
 # Disable auto start 
 find /etc/systemd/ | grep wants | xargs -r -n 1 basename | grep service | grep -v networking | grep -v tty   | xargs -r -n 1 -I __ systemctl disable __
 
+# Install ssh server
+apt install -y openssh-server
+
+# Install zsh
+apt install -y zsh
+
 # Install build tools for html5
 curl https://install.meteor.com/ | sh
 
@@ -79,10 +85,14 @@ su bigbluebutton -c bash -l << 'EOF'
         resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
         updateOptions := updateOptions.value.withCachedResolution(true)
     ' > $HOME/.sbt/1.0/global.sbt
+    
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    
+    echo '
+         source "$HOME/.sdkman/bin/sdkman-init.sh"
+    ' >> $HOME/.zshrc
 
-    # Build source artifacts ( test the above setup - disabled after first test )
-    exit 0
-
+    # Build source artifacts ( to have dependencies cached )
     cd ~
     git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
      
