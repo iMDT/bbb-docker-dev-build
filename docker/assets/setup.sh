@@ -60,14 +60,15 @@ apt install -y openssh-server
 # Install zsh
 apt install -y zsh
 
-# Install build tools for html5
-curl https://install.meteor.com/ | sh
 
 # Install build tools for java
 apt remove -y 'openjdk-11-*'
 apt-get install git-core ant ant-contrib openjdk-8-jdk-headless
 
 su bigbluebutton -c bash -l << 'EOF'
+    # Install build tools for html5
+    curl https://install.meteor.com/ | sh
+
     echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.profile
     echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
     source ~/.profile
@@ -116,6 +117,9 @@ EOF
 
 # Update files
 updatedb
+
+# Clear docker
+sudo rm -rf /var/lib/docker
 
 echo "BBB configuration completed.";
 exit 0;
