@@ -119,6 +119,7 @@ EOF
 updatedb
 
 # Clear docker
+sudo systemctl stop docker.socket
 sudo rm -rf /var/lib/docker
 
 echo "BBB configuration completed.";
