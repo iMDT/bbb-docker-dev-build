@@ -1,6 +1,8 @@
 FROM ubuntu:18.04
 MAINTAINER ffdixon@bigbluebutton.org
 
+#Force rebuild - 26.11.2021 
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV container docker
 
