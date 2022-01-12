@@ -29,7 +29,7 @@ RUN apt-get update \
     && apt-get install -y systemd
 
 # -- Download missing keys
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 32A0A01CC64D2A34
+# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 32A0A01CC64D2A34
 
 # -- Disable unneeded services
 RUN systemctl disable systemd-journal-flush
