@@ -25,3 +25,9 @@ if [ -f /local/certs/bbb-dev-ca.crt ]; then
     cp /local/certs/bbb-dev-ca.crt /usr/local/share/ca-certificates/bbb-dev/
     update-ca-certificates
 fi;
+
+# https://docs.bigbluebutton.org/2.4/dev.html#switch-nginx-to-redirect-requests-to-meteor 
+cat /etc/bigbluebutton/nginx/bbb-html5.nginx  | grep "for production" -v > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /etc/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
+cat /etc/bigbluebutton/nginx/bbb-html5.nginx | sed 's|# proxy_pass http://127.0.0.1:4100; # use for development|proxy_pass http://127.0.0.1:4100; # use for development|g' > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /etc/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
+systemctl enable nginx
+systemctl start nginx
