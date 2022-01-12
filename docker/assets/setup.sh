@@ -68,7 +68,7 @@ apt install -y zsh
 
 # Install build tools for java
 apt remove -y 'openjdk-11-*'
-apt-get install git-core ant ant-contrib openjdk-8-jdk-headless
+apt-get install -y git-core ant ant-contrib openjdk-8-jdk-headless
 
 su bigbluebutton -c bash -l << 'EOF'
     # Install build tools for html5
