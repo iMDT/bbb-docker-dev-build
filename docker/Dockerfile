@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV container docker
 
 RUN apt update 
-RUN apt install -y wget apt-transport-https
+RUN apt install -y wget apt-transport-https curl
 RUN apt install -y language-pack-en
 RUN update-locale LANG=en_US.UTF-8
 RUN apt install -y --no-install-recommends apt-utils
