@@ -11,8 +11,6 @@ if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
     sed -i 's/'$BBB_HOST'/'$THIS_HOST'/g' /etc/nginx/sites-available/bigbluebutton
     sed -i 's/'$BBB_HOST'/'$THIS_HOST'/g' /etc/bigbluebutton/nginx/sip.nginx
     /usr/bin/bbb-conf --setip "$THIS_HOST"
-else
-    /usr/bin/bbb-conf --restart
 fi;
 
 LOCAL_IP=`ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v ^127` 
@@ -31,3 +29,23 @@ cat /etc/bigbluebutton/nginx/bbb-html5.nginx  | grep "for production" -v > /tmp/
 cat /etc/bigbluebutton/nginx/bbb-html5.nginx | sed 's|# proxy_pass http://127.0.0.1:4100; # use for development|proxy_pass http://127.0.0.1:4100; # use for development|g' > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /etc/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
 systemctl enable nginx
 systemctl start nginx
+
+
+#Mudar ip da criaçao do container para o novo
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/vars.xml
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /etc/bigbluebutton/nginx/sip.nginx
+
+#Ajustes de IP mediasoup e freeswitch
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].ip "0.0.0.0"
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].announcedIp $LOCAL_IP
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.plainRtp.listenIp.ip "0.0.0.0"
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.plainRtp.listenIp.announcedIp $LOCAL_IP
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml kurento.ip $LOCAL_IP
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.ip $LOCAL_IP
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.sip_ip $LOCAL_IP
+
+#audio via http
+sudo yq w -i /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml public.media.sipjsHackViaWs true
+
+/usr/bin/bbb-conf --restart
