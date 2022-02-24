@@ -24,6 +24,13 @@ if [ -f /local/certs/bbb-dev-ca.crt ]; then
     update-ca-certificates
 fi;
 
+#Switch NginX static resource requests to Meteor
+sudo sed -i '/\/html5client\/locales/,+2 s/^/#/' /etc/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/\/html5client\/compatibility/,+2 s/^/#/' /etc/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/\/html5client\/resources/,+2 s/^/#/' /etc/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/\/html5client\/svgs/,+2 s/^/#/' /etc/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/\/html5client\/fonts/,+2 s/^/#/' /etc/bigbluebutton/nginx/bbb-html5.nginx
+
 # https://docs.bigbluebutton.org/2.4/dev.html#switch-nginx-to-redirect-requests-to-meteor 
 cat /etc/bigbluebutton/nginx/bbb-html5.nginx  | grep "for production" -v > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /etc/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
 cat /etc/bigbluebutton/nginx/bbb-html5.nginx | sed 's|# proxy_pass http://127.0.0.1:4100; # use for development|proxy_pass http://127.0.0.1:4100; # use for development|g' > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /etc/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
@@ -31,12 +38,10 @@ systemctl enable nginx
 systemctl start nginx
 
 
-#Mudar ip da criaçao do container para o novo
+#Ensure that IP is correct for configs of mediasoup, kurento, freeswitch
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/vars.xml
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /etc/bigbluebutton/nginx/sip.nginx
-
-#Ajustes de IP mediasoup e freeswitch
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].ip "0.0.0.0"
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].announcedIp $LOCAL_IP
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.plainRtp.listenIp.ip "0.0.0.0"
@@ -47,5 +52,8 @@ yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.si
 
 #audio via http
 sudo yq w -i /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml public.media.sipjsHackViaWs true
+
+#set https in Maven-repo config, to avoid errors during common-msg deploy
+sudo sed -i "s/http:/https:/g" /home/bigbluebutton/.sbt/1.0/global.sbt
 
 /usr/bin/bbb-conf --restart
