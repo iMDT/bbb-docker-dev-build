@@ -53,4 +53,7 @@ yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.si
 #audio via http
 sudo yq w -i /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml public.media.sipjsHackViaWs true
 
+#set https in Maven-repo config, to avoid errors during common-msg deploy
+sudo sed -i "s/http:/https:/g" /home/bigbluebutton/.sbt/1.0/global.sbt
+
 /usr/bin/bbb-conf --restart
