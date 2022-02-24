@@ -24,7 +24,7 @@ if [ -f /local/certs/bbb-dev-ca.crt ]; then
     update-ca-certificates
 fi;
 
-#Disable nginx `locations` of static files to let Meteor handle it in Development
+#Switch NginX static resource requests to Meteor
 sudo sed -i '/\/html5client\/locales/,+2 s/^/#/' /etc/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '/\/html5client\/compatibility/,+2 s/^/#/' /etc/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '/\/html5client\/resources/,+2 s/^/#/' /etc/bigbluebutton/nginx/bbb-html5.nginx
