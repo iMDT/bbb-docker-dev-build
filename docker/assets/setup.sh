@@ -88,7 +88,7 @@ su bigbluebutton -c bash -l << 'EOF'
 
     mkdir -p ~/.sbt/1.0
     echo '
-        resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
+        resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
         updateOptions := updateOptions.value.withCachedResolution(true)
     ' > $HOME/.sbt/1.0/global.sbt
     
