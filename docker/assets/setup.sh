@@ -1,4 +1,5 @@
 #!/bin/bash
+echo " Starting setup.sh"
 
 #
 # BlueButton open source conferencing system - http://www.bigbluebutton.org/
@@ -42,12 +43,12 @@ apt install -yq nginx
 systemctl enable nginx
 systemctl start nginx
 
-./bbb-install.sh -d -s "`hostname -f`" -v bionic-25-dev -a
+./bbb-install.sh -d -s "`hostname -f`" -v focal-25-m78 -a
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
-sudo sed -i '22 s/# proxy_pass/proxy_pass/' /etc/bigbluebutton/nginx/bbb-html5.nginx
-sudo sed -i '23 s/proxy_pass/# proxy_pass/' /etc/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '22 s/# proxy_pass/proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '23 s/proxy_pass/# proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 
 
 mkdir /home/bigbluebutton/
@@ -125,7 +126,7 @@ updatedb
 
 # Clear docker
 sudo systemctl stop docker.socket
-sudo rm -rf /var/lib/docker
+sudo find /var/lib/docker/ -mindepth 1 -maxdepth 1 | xargs sudo rm -rf || true
 
-echo "BBB configuration completed.";
+echo "BBB configuration completed."
 exit 0;
