@@ -16,7 +16,7 @@ RUN apt install -y mlocate strace iputils-ping telnet tcpdump vim htop
 
 # -- Install yq 
 # RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq
-RUN apt update
+# RUN apt update
 # RUN LC_CTYPE=C.UTF-8 apt install yq -y
 
 RUN apt-get install -y \
