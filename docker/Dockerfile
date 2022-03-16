@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER ffdixon@bigbluebutton.org
 
 #Force rebuild - 26.11.2021 
@@ -15,9 +15,9 @@ RUN apt install -y wget software-properties-common
 RUN apt install -y mlocate strace iputils-ping telnet tcpdump vim htop
 
 # -- Install yq 
-RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq
-RUN apt update
-RUN LC_CTYPE=C.UTF-8 apt install yq -y
+# RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq
+# RUN apt update
+# RUN LC_CTYPE=C.UTF-8 apt install yq -y
 
 RUN apt-get install -y \
   haveged    \
@@ -39,7 +39,7 @@ RUN systemctl disable systemd-update-utmp.service
 #    Add a number there to force update files
 ADD assets/nocache /root
 RUN mkdir /opt/docker-bbb/
-RUN wget https://raw.githubusercontent.com/bigbluebutton/bbb-install/master/bbb-install.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
+RUN wget https://ubuntu.bigbluebutton.org/bbb-install-2.5f.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
 # RUN wget https://ubuntu.bigbluebutton.org/bbb-install-25.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
 
 RUN chmod 755 /opt/docker-bbb/bbb-install.sh
