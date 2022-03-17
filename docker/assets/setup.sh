@@ -113,7 +113,7 @@ su bigbluebutton -c bash -l << 'EOF'
     cd ..
 
     cd bigbluebutton-web/
-    ./build.sh
+    ./build.sh || true
     cd ..
      
     cd bigbluebutton-html5/
