@@ -100,7 +100,7 @@ su bigbluebutton -c bash -l << 'EOF'
 
     # Build source artifacts ( to have dependencies cached )
     cd ~
-    git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
+    git clone --single-branch --branch v2.5.x-release https://github.com/bigbluebutton/bigbluebutton.git
      
     cd bigbluebutton
      
