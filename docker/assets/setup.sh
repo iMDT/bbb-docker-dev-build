@@ -43,7 +43,7 @@ apt install -yq nginx
 systemctl enable nginx
 systemctl start nginx
 
-./bbb-install.sh -d -s "`hostname -f`" -v focal-25-m78 -a
+./bbb-install.sh -d -s "`hostname -f`" -v focal-25-dev -a
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
@@ -68,23 +68,22 @@ apt install -y zsh
 
 
 # Install build tools for java
-apt remove -y 'openjdk-11-*'
-apt-get install -y git-core ant ant-contrib openjdk-8-jdk-headless
+apt-get install -y git-core ant ant-contrib openjdk-11-jdk-headless
 
 su bigbluebutton -c bash -l << 'EOF'
     # Install build tools for html5
     curl https://install.meteor.com/ | sh
 
-    echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.profile
+    echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
     echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
     source ~/.profile
 
     curl -s "https://get.sdkman.io" | bash
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-    sdk install gradle 5.5.1
-    sdk install grails 3.3.9
-    sdk install sbt 1.2.8
+    sdk install gradle 7.3.1
+    sdk install grails 5.0.1
+    sdk install sbt 1.6.2
     sdk install maven 3.5.0
 
     mkdir -p ~/.sbt/1.0
@@ -111,6 +110,10 @@ su bigbluebutton -c bash -l << 'EOF'
      
     cd bbb-common-web/
     ./deploy.sh
+    cd ..
+
+    cd bigbluebutton-web/
+    ./build.sh
     cd ..
      
     cd bigbluebutton-html5/
