@@ -111,10 +111,6 @@ su bigbluebutton -c bash -l << 'EOF'
     cd bbb-common-web/
     ./deploy.sh
     cd ..
-
-    cd bigbluebutton-web/
-    ./build.sh || true
-    cd ..
      
     cd bigbluebutton-html5/
     npm install
