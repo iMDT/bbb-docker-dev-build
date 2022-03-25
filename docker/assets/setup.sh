@@ -44,7 +44,9 @@ systemctl enable nginx
 systemctl start nginx
 
 ./bbb-install.sh -d -s "`hostname -f`" -v focal-25-dev -a
-sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
+if [ -e /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml ]; then
+    sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
+fi
 
 # Change the nginx lines
 sudo sed -i '22 s/# proxy_pass/proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
