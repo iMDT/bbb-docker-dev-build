@@ -15,9 +15,8 @@ if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
 fi;
 
 LOCAL_IP=`ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v ^127` 
-if [ -e /opt/freeswitch/conf/vars.xml ]; then
-	sed -i 's/data="local_ip_v4=.*"/data="local_ip_v4='$LOCAL_IP'"/g' /opt/freeswitch/conf/vars.xml
-fi
+sed -i 's/data="local_ip_v4=.*"/data="local_ip_v4='$LOCAL_IP'"/g' /opt/freeswitch/conf/vars.xml
+
 sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/nginx/sites-available/bigbluebutton
 
 if [ -f /local/certs/bbb-dev-ca.crt ]; then
@@ -45,10 +44,9 @@ systemctl start tomcat9
 
 
 #Ensure that IP is correct for configs of mediasoup, kurento, freeswitch
-if [ -d /opt/freeswitch/etc/freeswitch ]; then
-	sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/vars.xml
-	sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml
-fi
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/vars.xml
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml
+
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /usr/share/bigbluebutton/nginx/sip.nginx
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].ip "0.0.0.0"
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].announcedIp $LOCAL_IP
