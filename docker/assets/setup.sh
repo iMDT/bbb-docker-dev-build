@@ -43,7 +43,7 @@ apt install -yq nginx
 systemctl enable nginx
 systemctl start nginx
 
-./bbb-install.sh -d -s "`hostname -f`" -v focal-25-dev -a
+./bbb-install.sh -d -s "`hostname -f`" -v focal-26-dev -a
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
@@ -100,7 +100,8 @@ su bigbluebutton -c bash -l << 'EOF'
 
     # Build source artifacts ( to have dependencies cached )
     cd ~
-    git clone --single-branch --branch v2.5.x-release https://github.com/bigbluebutton/bigbluebutton.git
+    #git clone --single-branch --branch v2.6.x-release https://github.com/bigbluebutton/bigbluebutton.git
+    git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
      
     cd bigbluebutton
      
