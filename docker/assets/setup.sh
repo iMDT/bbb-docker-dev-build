@@ -35,7 +35,7 @@ apt update
 
 set +e
 apt install -y redis-server
-sed -i 's/bind 127.0.0.1 ::1/bind 127.0.0.1/g'  /etc/redis/redis.conf
+sed -i 's/bind 127.0.0.1 ::1/bind 0.0.0.0/g'  /etc/redis/redis.conf
 set -e
 apt install -y redis-server
 

@@ -56,9 +56,19 @@ yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml kurento.ip $L
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.ip $LOCAL_IP
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.sip_ip $LOCAL_IP
 
-#audio via http
-sudo yq w -i /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml public.media.sipjsHackViaWs true
+#html5: create config
+sudo touch /etc/bigbluebutton/bbb-html5.yml;
 
+#html5: set audio via http
+sudo yq w -i /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml public.media.sipjsHackViaWs true
+sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.media.sipjsHackViaWs true
+
+#html5: set correct hostname
+sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.pads.url "https://$(hostname -f)/pad"
+sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.kurento.wsUrl "wss://$(hostname -f)/bbb-webrtc-sfu"
+
+#bbb-web: set securitySalt
+echo "securitySalt=$(sudo bbb-conf --salt | grep Secret: | cut -d ' ' -f 6)" | sudo tee -a /etc/bigbluebutton/bbb-web.properties
 
 /usr/bin/bbb-conf --restart
 echo "rc.local executed"
