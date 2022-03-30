@@ -34,13 +34,14 @@ fi;
 date > docker/assets/nocache
 echo "Docker image doesn't exists, building"
 docker build -t bbb_docker_build docker/
+echo "Docker image created"
 
 if [ -d certs ]; then
 	rm -rf certs
 fi;
 mkdir certs/
-wget --quiet "$CERT_FULLCHAIN_URL" -O certs/fullchain.pem
-wget --quiet "$CERT_PRIVKEY_URL" -O certs/privkey.pem
+wget "$CERT_FULLCHAIN_URL" -O certs/fullchain.pem
+wget "$CERT_PRIVKEY_URL" -O certs/privkey.pem
 
 
 docker kill bbb_docker_build &> /dev/null || echo 
@@ -51,3 +52,4 @@ docker exec -u root bbb_docker_build sh -c " /opt/docker-bbb/setup.sh || ( echo 
 docker exec -u root bbb_docker_build sh -c " rm /opt/docker-bbb/setup.sh "
 docker exec -u root bbb_docker_build sh -c " halt "
 
+echo " halt"

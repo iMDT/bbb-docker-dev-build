@@ -1,4 +1,5 @@
 #!/bin/sh
+echo "Starting rc.local"
 BBB_HOST=`cat /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties | grep 'bigbluebutton.web.serverURL='  | awk -F '://' '{print $2}'`
 THIS_HOST=`hostname -f`
 
@@ -25,6 +26,23 @@ if [ -f /local/certs/bbb-dev-ca.crt ]; then
     cp /local/certs/bbb-dev-ca.crt /usr/local/share/ca-certificates/bbb-dev/
     update-ca-certificates
 fi;
+
+#html5: create config
+sudo touch /etc/bigbluebutton/bbb-html5.yml;
+
+#html5: set correct hostname
+sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.pads.url "https://$(hostname -f)/pad"
+sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.kurento.wsUrl "wss://$(hostname -f)/bbb-webrtc-sfu"
+
+#set nginx to use https and disable sipjsHackViaWs on html5
+sudo sed -i "s/http:/https:/g" /etc/bigbluebutton/nginx/sip.nginx
+sudo sed -i "s/5066/7443/g" /etc/bigbluebutton/nginx/sip.nginx
+sudo yq w -i /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml public.media.sipjsHackViaWs false
+sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.media.sipjsHackViaWs false
+
+#bbb-web: set securitySalt
+echo "securitySalt=$(sudo bbb-conf --salt | grep Secret: | cut -d ' ' -f 6)" | sudo tee -a /etc/bigbluebutton/bbb-web.properties
+
 
 # https://docs.bigbluebutton.org/2.4/dev.html#switch-nginx-to-redirect-requests-to-meteor 
 cat /etc/bigbluebutton/nginx/bbb-html5.nginx  | grep "for production" -v > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /etc/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx

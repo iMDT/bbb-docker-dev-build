@@ -1,4 +1,5 @@
 #!/bin/bash
+echo " Starting setup.sh"
 
 #
 # BlueButton open source conferencing system - http://www.bigbluebutton.org/
@@ -34,7 +35,7 @@ apt update
 
 set +e
 apt install -y redis-server
-sed -i 's/bind 127.0.0.1 ::1/bind 127.0.0.1/g'  /etc/redis/redis.conf
+sed -i 's/bind 127.0.0.1 ::1/bind 0.0.0.0/g'  /etc/redis/redis.conf
 set -e
 apt install -y redis-server
 
@@ -88,7 +89,7 @@ su bigbluebutton -c bash -l << 'EOF'
 
     mkdir -p ~/.sbt/1.0
     echo '
-        resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
+        resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
         updateOptions := updateOptions.value.withCachedResolution(true)
     ' > $HOME/.sbt/1.0/global.sbt
     
@@ -100,7 +101,7 @@ su bigbluebutton -c bash -l << 'EOF'
 
     # Build source artifacts ( to have dependencies cached )
     cd ~
-    git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
+    git clone --single-branch --branch v2.4.x-release https://github.com/bigbluebutton/bigbluebutton.git
      
     cd bigbluebutton
      
@@ -111,11 +112,15 @@ su bigbluebutton -c bash -l << 'EOF'
     cd bbb-common-web/
     ./deploy.sh
     cd ..
-     
+
+    cd bigbluebutton-web/
+    ./build.sh </dev/null
+    cd ..
+    
     cd bigbluebutton-html5/
     npm install
     cd ..
-    
+
     rm -rf ~/bigbluebutton/
 EOF
 
@@ -127,5 +132,5 @@ updatedb
 sudo systemctl stop docker.socket
 sudo rm -rf /var/lib/docker
 
-echo "BBB configuration completed.";
+echo "BBB configuration completed."
 exit 0;
