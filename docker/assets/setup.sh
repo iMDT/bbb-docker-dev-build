@@ -34,10 +34,10 @@ chmod 1777 /tmp/
 apt update 
 
 set +e
+sudo add-apt-repository -u ppa:chris-lea/redis-server
 apt install -y redis-server
 sed -i 's/bind 127.0.0.1 ::1/bind 0.0.0.0/g'  /etc/redis/redis.conf
 set -e
-apt install -y redis-server
 
 apt install -yq nginx
 systemctl enable nginx
@@ -130,7 +130,7 @@ updatedb
 
 # Clear docker
 sudo systemctl stop docker.socket
-sudo rm -rf /var/lib/docker
+sudo find /var/lib/docker/ -mindepth 1 -maxdepth 1 | xargs sudo rm -rf || true
 
 echo "BBB configuration completed."
 exit 0;

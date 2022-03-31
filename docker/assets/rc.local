@@ -12,8 +12,6 @@ if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
     sed -i 's/'$BBB_HOST'/'$THIS_HOST'/g' /etc/nginx/sites-available/bigbluebutton
     sed -i 's/'$BBB_HOST'/'$THIS_HOST'/g' /etc/bigbluebutton/nginx/sip.nginx
     /usr/bin/bbb-conf --setip "$THIS_HOST"
-else
-    /usr/bin/bbb-conf --restart
 fi;
 
 LOCAL_IP=`ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v ^127` 
@@ -49,3 +47,6 @@ cat /etc/bigbluebutton/nginx/bbb-html5.nginx  | grep "for production" -v > /tmp/
 cat /etc/bigbluebutton/nginx/bbb-html5.nginx | sed 's|# proxy_pass http://127.0.0.1:4100; # use for development|proxy_pass http://127.0.0.1:4100; # use for development|g' > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /etc/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
 systemctl enable nginx
 systemctl start nginx
+
+/usr/bin/bbb-conf --restart
+echo "rc.local executed"
