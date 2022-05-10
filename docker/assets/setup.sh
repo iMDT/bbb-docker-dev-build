@@ -37,7 +37,6 @@ set +e
 apt install -y redis-server
 sed -i 's/bind 127.0.0.1 ::1/bind 0.0.0.0/g'  /etc/redis/redis.conf
 set -e
-apt install -y redis-server
 
 apt install -yq nginx
 systemctl enable nginx
@@ -66,6 +65,8 @@ apt install -y openssh-server
 # Install zsh
 apt install -y zsh
 
+# Install build tools for record-and-playback
+apt install -y ruby-dev libsystemd-dev
 
 # Install build tools for java
 apt-get install -y git-core ant ant-contrib openjdk-11-jdk-headless
