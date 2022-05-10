@@ -52,7 +52,8 @@ yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.web
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].announcedIp $LOCAL_IP
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.plainRtp.listenIp.ip "0.0.0.0"
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.plainRtp.listenIp.announcedIp $LOCAL_IP
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml kurento.ip $LOCAL_IP
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml "kurento[0].ip" $LOCAL_IP
+yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml "kurento[0].url" ws://127.0.0.1:8888/kurento
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.ip $LOCAL_IP
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.sip_ip $LOCAL_IP
 
