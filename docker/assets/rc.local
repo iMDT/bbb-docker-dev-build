@@ -69,11 +69,12 @@ sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.pads.url "https://$(hostnam
 sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.kurento.wsUrl "wss://$(hostname -f)/bbb-webrtc-sfu"
 
 #bbb-web: set securitySalt
-sudo sed -i "/securitySalt=/d" /etc/bigbluebutton/bbb-web.properties
+sudo sed -i "/securitySalt=/d" /etc/bigbluebutton/bbb-web.properties || true
 echo "securitySalt=$(sudo bbb-conf --salt | grep Secret: | cut -d ' ' -f 6)" | sudo tee -a /etc/bigbluebutton/bbb-web.properties
 
 /usr/bin/bbb-conf --restart
 
+mkdir -p /usr/share/bbb-libreoffice
 cd /usr/share/bbb-libreoffice
 docker build -t bbb-soffice docker/
 
