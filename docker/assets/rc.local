@@ -3,7 +3,7 @@ echo "Starting rc.local"
 BBB_HOST=`cat /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties | grep 'bigbluebutton.web.serverURL='  | awk -F '://' '{print $2}'`
 THIS_HOST=`hostname -f`
 
-umount /etc/letsencrypt || true
+umount /etc/letsencrypt/live/`hostname -f` || true
 rm -rf /etc/letsencrypt
 mkdir /etc/letsencrypt/live/`hostname -f` -p
 mount --bind /local/certs/ /etc/letsencrypt/live/`hostname -f`
@@ -69,7 +69,12 @@ sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.pads.url "https://$(hostnam
 sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.kurento.wsUrl "wss://$(hostname -f)/bbb-webrtc-sfu"
 
 #bbb-web: set securitySalt
+sudo sed -i "/securitySalt=/d" /etc/bigbluebutton/bbb-web.properties
 echo "securitySalt=$(sudo bbb-conf --salt | grep Secret: | cut -d ' ' -f 6)" | sudo tee -a /etc/bigbluebutton/bbb-web.properties
 
 /usr/bin/bbb-conf --restart
+
+cd /usr/share/bbb-libreoffice
+docker build -t bbb-soffice docker/
+
 echo "rc.local executed"
