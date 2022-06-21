@@ -1,13 +1,12 @@
 version: 2
 jobs:
- build:
-   machine:
-    image: ubuntu-2004:2022.04.2
-   steps:
-     - checkout
-     - run: |
-         sudo ./build.sh "$CERT_FULLCHAIN_URL" "$CERT_PRIVKEY_URL"
-     - run:
-         no_output_timeout: 30m
-         command: sudo ./publish.sh "$DOCKER_USER" "$DOCKER_PASS" "$CIRCLE_BUILD_NUM"
-
+  build:
+    machine:
+      image: ubuntu-2004:2022.04.2
+    steps:
+      - checkout
+      - run: |
+          sudo ./build.sh "$CERT_FULLCHAIN_URL" "$CERT_PRIVKEY_URL"
+      - run:
+          no_output_timeout: 30m
+          command: sudo ./publish.sh "$DOCKER_USER" "$DOCKER_PASS" "$CIRCLE_BUILD_NUM"
