@@ -11,6 +11,7 @@ echo "Docker tag"
 docker tag $IMAGE_NAME imdt/bigbluebutton:2.4.x-develop
 docker tag $IMAGE_NAME imdt/bigbluebutton:2.4.x-develop_build_$CIRCLE_BUILD_NUM
 echo "Docker push"
-docker push imdt/bigbluebutton
+docker push imdt/bigbluebutton:2.4.x-develop
+docker push imdt/bigbluebutton:2.4.x-develop_build_$CIRCLE_BUILD_NUM
 echo "Docker logout"
 docker logout
