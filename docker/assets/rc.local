@@ -74,6 +74,10 @@ echo "securitySalt=$(sudo bbb-conf --salt | grep Secret: | cut -d ' ' -f 6)" | s
 
 /usr/bin/bbb-conf --restart
 
+#TODO remove it
+#temporary workaround while bbb2.6 is not starting correctly
+systemctl restart freeswitch bbb-apps-akka bbb-fsesl-akka bbb-webrtc-sfu kurento-media-server bbb-web
+
 mkdir -p /usr/share/bbb-libreoffice
 cd /usr/share/bbb-libreoffice
 docker build -t bbb-soffice docker/
