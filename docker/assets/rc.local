@@ -26,12 +26,6 @@ if [ -f /local/certs/bbb-dev-ca.crt ]; then
     update-ca-certificates
 fi;
 
-#Switch NginX static resource requests to Meteor
-sudo sed -i '/^location \/html5client\/locales/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
-sudo sed -i '/^location \/html5client\/compatibility/,+3 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
-sudo sed -i '/^location \/html5client\/resources/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
-sudo sed -i '/^location \/html5client\/svgs/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
-sudo sed -i '/^location \/html5client\/fonts/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 
 # https://docs.bigbluebutton.org/2.4/dev.html#switch-nginx-to-redirect-requests-to-meteor 
 cat /usr/share/bigbluebutton/nginx/bbb-html5.nginx  | grep "for production" -v > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /usr/share/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
@@ -56,13 +50,6 @@ yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml "kurento[0].i
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml "kurento[0].url" ws://127.0.0.1:8888/kurento
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.ip $LOCAL_IP
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.sip_ip $LOCAL_IP
-
-#html5: create config
-sudo touch /etc/bigbluebutton/bbb-html5.yml;
-
-#html5: set audio via http
-sudo yq w -i /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml public.media.sipjsHackViaWs true
-sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.media.sipjsHackViaWs true
 
 #html5: set correct hostname
 sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.pads.url "https://$(hostname -f)/pad"
