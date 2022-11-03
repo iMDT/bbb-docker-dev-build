@@ -60,6 +60,10 @@ sudo sed -i '/^location \/html5client\/resources/,+2 s/^/#/' /usr/share/bigblueb
 sudo sed -i '/^location \/html5client\/svgs/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '/^location \/html5client\/fonts/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 
+#Install and create symlinks to syslog service 
+sudo apt install rsyslog
+sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
+
 #html5: create config
 sudo touch /etc/bigbluebutton/bbb-html5.yml;
 
