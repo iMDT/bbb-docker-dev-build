@@ -30,11 +30,11 @@ fi;
 # https://docs.bigbluebutton.org/2.4/dev.html#switch-nginx-to-redirect-requests-to-meteor 
 cat /usr/share/bigbluebutton/nginx/bbb-html5.nginx  | grep "for production" -v > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /usr/share/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
 cat /usr/share/bigbluebutton/nginx/bbb-html5.nginx | sed 's|# proxy_pass http://127.0.0.1:4100; # use for development|proxy_pass http://127.0.0.1:4100; # use for development|g' > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /usr/share/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
-systemctl enable nginx
+#systemctl enable nginx
 systemctl restart nginx
 
-systemctl enable tomcat9
-systemctl start tomcat9
+#systemctl enable tomcat9
+#systemctl start tomcat9
 
 
 #Ensure that IP is correct for configs of mediasoup, kurento, freeswitch
