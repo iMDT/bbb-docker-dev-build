@@ -61,7 +61,7 @@ sudo sed -i '/^location \/html5client\/svgs/,+2 s/^/#/' /usr/share/bigbluebutton
 sudo sed -i '/^location \/html5client\/fonts/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 
 #Install and create symlinks to syslog service 
-sudo apt install rsyslog
+sudo apt install -y rsyslog
 sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
 sudo mkdir /etc/systemd/system/bigbluebutton.target.wants
 sudo ln -s /lib/systemd/system/bbb-apps-akka.service /etc/systemd/system/bigbluebutton.target.wants/bbb-apps-akka.service
