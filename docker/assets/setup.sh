@@ -63,6 +63,22 @@ sudo sed -i '/^location \/html5client\/fonts/,+2 s/^/#/' /usr/share/bigbluebutto
 #Install and create symlinks to syslog service 
 sudo apt install rsyslog
 sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
+sudo mkdir /etc/systemd/system/bigbluebutton.target.wants
+sudo ln -s /lib/systemd/system/bbb-apps-akka.service /etc/systemd/system/bigbluebutton.target.wants/bbb-apps-akka.service
+sudo ln -s /lib/systemd/system/bbb-export-annotations.service /etc/systemd/system/bigbluebutton.target.wants/bbb-export-annotations.service
+sudo ln -s /lib/systemd/system/bbb-fsesl-akka.service /etc/systemd/system/bigbluebutton.target.wants/bbb-fsesl-akka.service
+sudo ln -s /lib/systemd/system/bbb-html5.service /etc/systemd/system/bigbluebutton.target.wants/bbb-html5.service
+sudo ln -s /lib/systemd/system/bbb-pads.service /etc/systemd/system/bigbluebutton.target.wants/bbb-pads.service
+sudo ln -s /lib/systemd/system/bbb-rap-caption-inbox.service /etc/systemd/system/bigbluebutton.target.wants/bbb-rap-caption-inbox.service
+sudo ln -s /lib/systemd/system/bbb-rap-resque-worker.service /etc/systemd/system/bigbluebutton.target.wants/bbb-rap-resque-worker.service
+sudo ln -s /lib/systemd/system/bbb-rap-starter.service /etc/systemd/system/bigbluebutton.target.wants/bbb-rap-starter.service
+sudo ln -s /lib/systemd/system/bbb-web.service /etc/systemd/system/bigbluebutton.target.wants/bbb-web.service
+sudo ln -s /lib/systemd/system/bbb-webrtc-sfu.service /etc/systemd/system/bigbluebutton.target.wants/bbb-webrtc-sfu.service
+sudo ln -s /lib/systemd/system/disable-transparent-huge-pages.service /etc/systemd/system/bigbluebutton.target.wants/disable-transparent-huge-pages.service
+sudo ln -s /lib/systemd/system/etherpad.service /etc/systemd/system/bigbluebutton.target.wants/etherpad.service
+sudo ln -s /lib/systemd/system/freeswitch.service /etc/systemd/system/bigbluebutton.target.wants/freeswitch.service
+sudo ln -s /lib/systemd/system/kurento-media-server.service /etc/systemd/system/bigbluebutton.target.wants/kurento-media-server.service
+
 
 #html5: create config
 sudo touch /etc/bigbluebutton/bbb-html5.yml;
