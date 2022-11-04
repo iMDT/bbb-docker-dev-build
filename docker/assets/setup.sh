@@ -43,7 +43,7 @@ systemctl enable nginx
 systemctl start nginx
 
 sudo apt install -y rsyslog
-[ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
+# [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
 
 ./bbb-install.sh -d -s "`hostname -f`" -v focal-26-dev
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
@@ -80,6 +80,9 @@ bbb-conf --restart
 #find /etc/systemd/ | grep wants | grep -v bigbluebutton | xargs -r -n 1 basename | grep service | grep -v networking | grep -v networking | grep -v syslog | grep -v tty   | xargs -r -n 1 -I __ systemctl disable __
 sudo systemctl disable e2scrub_reap haveged systemd-pstore systemd-timesyncd apparmor networkd-dispatcher systemd-resolved unattended-upgrades ondemand dmesg rsync
 
+# Enable bbb services (that is not being enabled properly during bbb-install
+# Enabled already: bbb-apps-akka bbb-fsesl-akka bbb-rap-caption-inbox bbb-rap-resque-worker bbb-rap-starter
+sudo systemctl enable bbb-export-annotations bbb-html5 bbb-pads bbb-web bbb-webrtc-sfu disable-transparent-huge-pages etherpad freeswitch kurento-media-server
 
 # Install ssh server
 apt install -y openssh-server
