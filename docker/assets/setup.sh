@@ -49,6 +49,23 @@ sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_so
 sudo sed -i '22 s/# proxy_pass/proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '23 s/proxy_pass/# proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 
+#Set NODE_TLS_REJECT_UNAUTHORIZED to make node allow image from self-signed certificate
+echo "NODE_TLS_REJECT_UNAUTHORIZED=0" | sudo tee -a /usr/share/meteor/bundle/bbb-html5-with-roles.conf
+echo "NODE_TLS_REJECT_UNAUTHORIZED=0" | sudo tee -a /etc/environment
+
+#Switch NginX static resource requests to Meteor
+sudo sed -i '/^location \/html5client\/locales/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/^location \/html5client\/compatibility/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/^location \/html5client\/resources/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/^location \/html5client\/svgs/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/^location \/html5client\/fonts/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+
+#html5: create config
+sudo touch /etc/bigbluebutton/bbb-html5.yml;
+
+#html5: set audio via http
+sudo yq w -i /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml public.media.sipjsHackViaWs true
+sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.media.sipjsHackViaWs true
 
 mkdir /home/bigbluebutton/
 chown bigbluebutton /home/bigbluebutton/ -R
