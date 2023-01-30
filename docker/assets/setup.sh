@@ -51,6 +51,8 @@ sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_so
 # Change the nginx lines
 sudo sed -i '22 s/# proxy_pass/proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '23 s/proxy_pass/# proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+# Disable IPv6 localhost listens (nginx can't start with it)
+sudo sed -e '/\[::1\]/ s/^#*/#/' -i /etc/nginx/sites-available/bigbluebutton
 
 #Set NODE_TLS_REJECT_UNAUTHORIZED to make node allow image from self-signed certificate
 echo "NODE_TLS_REJECT_UNAUTHORIZED=0" | sudo tee -a /usr/share/meteor/bundle/bbb-html5-with-roles.conf
