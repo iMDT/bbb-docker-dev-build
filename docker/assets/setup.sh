@@ -160,5 +160,8 @@ updatedb
 sudo systemctl stop docker.socket
 sudo find /var/lib/docker/ -mindepth 1 -maxdepth 1 | xargs sudo rm -rf || true
 
+# Uninstall docker daemon (as we use docker-ce)
+sudo apt remove docker-ce
+
 echo "BBB configuration completed."
 exit 0;
