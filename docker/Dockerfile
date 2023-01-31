@@ -14,15 +14,8 @@ RUN apt install -y --no-install-recommends apt-utils
 RUN apt install -y wget software-properties-common
 RUN apt install -y mlocate strace iputils-ping telnet tcpdump vim htop
 
-# -- Install docker (for docker-in-docker)
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list
-RUN apt update
-RUN apt install -y docker-ce
-# (and ensure it will never see the light again)
-RUN chmod 000 /usr/bin/dockerd
-RUN chmod 000 /usr/bin/containerd
-RUN rm /lib/systemd/system/docker.service
+# -- Anticipate docker user and group creation (for ubuntu 22 docker-in-docker compatibility)
+RUN groupadd -o -g 999 docker
 
 # -- Install yq 
 # RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq
