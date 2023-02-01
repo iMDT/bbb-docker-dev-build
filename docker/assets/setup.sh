@@ -162,7 +162,7 @@ sudo find /var/lib/docker/ -mindepth 1 -maxdepth 1 | xargs sudo rm -rf || true
 
 # Uninstall docker daemon (as we use docker-ce)
 sudo apt remove -y docker-ce
-echo "export DOCKER_HOST=unix:///docker.sock" | sudo tee /etc/profile.d/02-docker-in-docker.sh
+echo "DOCKER_HOST=unix:///docker.sock" | sudo tee -a /etc/environment
 
 
 echo "BBB configuration completed."
