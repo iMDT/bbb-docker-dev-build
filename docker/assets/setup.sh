@@ -164,6 +164,9 @@ sudo find /var/lib/docker/ -mindepth 1 -maxdepth 1 | xargs sudo rm -rf || true
 sudo apt remove -y docker-ce
 echo "DOCKER_HOST=unix:///docker.sock" | sudo tee -a /etc/environment
 
+# Avoid deleting /tmp files on boot (because now container mounts the host /tmp)
+# Disable /tmp cleaner
+sudo sed -e '/\/tmp/ s/^#*/#/' -i /usr/lib/tmpfiles.d/tmp.conf
 
 echo "BBB configuration completed."
 exit 0;
