@@ -11,10 +11,10 @@ mount --bind /local/certs/ /etc/letsencrypt/live/`hostname -f`
 
 # now haproxy serve port 443, and it expects the cert in /etc/haproxy/certbundle.pem
 #copied from https://github.com/bigbluebutton/bbb-install/blob/16825846cb230ead230f00c9d3064b8d6dcee0bf/bbb-install-2.6.sh#L761
-cat "/etc/letsencrypt/live/${THIS_HOST}"/{fullchain,privkey}.pem > /tmp/certbundle.pem.new
-chown root:haproxy /tmp/certbundle.pem.new
-chmod 0640 /tmp/certbundle.pem.new
-mv /tmp/certbundle.pem.new /etc/haproxy/certbundle.pem
+cat /local/certs/fullchain.pem /local/certs/privkey.pem > /etc/haproxy/certbundle.pem.new
+chown root:haproxy /etc/haproxy/certbundle.pem.new
+chmod 0640 /etc/haproxy/certbundle.pem.new
+mv /etc/haproxy/certbundle.pem.new /etc/haproxy/certbundle.pem
 systemctl reload haproxy
 
 
