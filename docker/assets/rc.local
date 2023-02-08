@@ -15,7 +15,6 @@ cat /local/certs/fullchain.pem /local/certs/privkey.pem > /etc/haproxy/certbundl
 chown root:haproxy /etc/haproxy/certbundle.pem.new
 chmod 0640 /etc/haproxy/certbundle.pem.new
 mv /etc/haproxy/certbundle.pem.new /etc/haproxy/certbundle.pem
-systemctl reload haproxy
 
 
 if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
@@ -33,6 +32,14 @@ sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/nginx/sites
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /etc/turnserver.conf
 sudo sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/turnserver.conf
 sudo sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/bigbluebutton/turn-stun-servers.xml
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /etc/haproxy/haproxy.cfg
+systemctl reload haproxy
+
+# Set configs with correct IP
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /etc/bigbluebutton/bbb-webrtc-sfu/production.yml
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /usr/share/bbb-apps-akka/conf/application.conf
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
+
 
 if [ -f /local/certs/bbb-dev-ca.crt ]; then
     echo "Trusting root CA";
