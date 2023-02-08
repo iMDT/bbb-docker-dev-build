@@ -29,6 +29,11 @@ sed -i 's/data="local_ip_v4=.*"/data="local_ip_v4='$LOCAL_IP'"/g' /opt/freeswitc
 
 sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/nginx/sites-available/bigbluebutton
 
+# Tweak COTURN configs with correct hostname and IP
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /etc/turnserver.conf
+sudo sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/turnserver.conf
+sudo sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/bigbluebutton/turn-stun-servers.xml
+
 if [ -f /local/certs/bbb-dev-ca.crt ]; then
     echo "Trusting root CA";
     mkdir /usr/local/share/ca-certificates/bbb-dev/
@@ -74,6 +79,6 @@ echo "securitySalt=$(sudo bbb-conf --salt | grep Secret: | cut -d ' ' -f 6)" | s
 
 mkdir -p /usr/share/bbb-libreoffice
 cd /usr/share/bbb-libreoffice
-docker build -t bbb-soffice docker/
+sudo docker build -t bbb-soffice docker/
 
 echo "rc.local executed"
