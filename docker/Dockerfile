@@ -42,8 +42,7 @@ RUN systemctl disable systemd-update-utmp.service
 #    Add a number there to force update files
 ADD assets/nocache /root
 RUN mkdir /opt/docker-bbb/
-# RUN wget https://ubuntu.bigbluebutton.org/bbb-install-25.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
-RUN wget https://ubuntu.bigbluebutton.org/bbb-install-2.6.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
+RUN wget https://ubuntu.bigbluebutton.org/bbb-install-2.7.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
 
 RUN chmod 755 /opt/docker-bbb/bbb-install.sh
 ADD ./assets/setup.sh /opt/docker-bbb/setup.sh
