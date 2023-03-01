@@ -45,7 +45,7 @@ systemctl start nginx
 sudo apt install -y rsyslog
 # [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
 
-./bbb-install.sh -d -s "`hostname -f`" -v focal-26-dev
+./bbb-install.sh -d -s "`hostname -f`" -v focal-27-dev
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
@@ -128,7 +128,7 @@ su bigbluebutton -c bash -l << 'EOF'
 
     # Build source artifacts ( to have dependencies cached )
     cd ~
-    #git clone --single-branch --branch v2.6.x-release https://github.com/bigbluebutton/bigbluebutton.git
+    #git clone --single-branch --branch v2.7.x-release https://github.com/bigbluebutton/bigbluebutton.git
     git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
      
     cd bigbluebutton
