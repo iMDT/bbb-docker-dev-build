@@ -4,7 +4,7 @@ echo " Starting setup.sh"
 #
 # BlueButton open source conferencing system - http://www.bigbluebutton.org/
 #
-# Copyright (c) 2018 BigBlueButton Inc.
+# Copyright (c) 2023 BigBlueButton Inc.
 #
 # This program is free software; you can redistribute it and/or modify it under the
 # terms of the GNU Lesser General Public License as published by the Free Software
@@ -102,7 +102,7 @@ su bigbluebutton -c bash -l << 'EOF'
     # Install build tools for html5
     curl https://install.meteor.com/ | sh
 
-    echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
+    echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.profile
     echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
     source ~/.profile
 
@@ -110,7 +110,7 @@ su bigbluebutton -c bash -l << 'EOF'
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 
     sdk install gradle 7.3.1
-    sdk install grails 5.0.1
+    sdk install grails 5.3.2
     sdk install sbt 1.6.2
     sdk install maven 3.5.0
 
@@ -128,8 +128,8 @@ su bigbluebutton -c bash -l << 'EOF'
 
     # Build source artifacts ( to have dependencies cached )
     cd ~
-    #git clone --single-branch --branch v2.7.x-release https://github.com/bigbluebutton/bigbluebutton.git
-    git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
+    git clone --single-branch --branch v2.7.x-release https://github.com/bigbluebutton/bigbluebutton.git
+    #git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
      
     cd bigbluebutton
      
