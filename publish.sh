@@ -3,6 +3,7 @@ DOCKER_USER=$1
 DOCKER_PASS=$2
 CIRCLE_BUILD_NUM=$3
 IMAGE_NAME=bbb_`date '+%s'`
+set -e
 echo "Docker login"
 docker login -u $DOCKER_USER -p $DOCKER_PASS
 echo "Docker commit"
