@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "Starting rc.local"
-BBB_HOST=`cat /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties | grep 'bigbluebutton.web.serverURL='  | awk -F '://' '{print $2}'`
+BBB_HOST=`cat /etc/bigbluebutton/bbb-web.properties | grep 'bigbluebutton.web.serverURL='  | awk -F '://' '{print $2}'`
 THIS_HOST=`hostname -f`
 
 umount /etc/letsencrypt/live/`hostname -f` || true
@@ -23,7 +23,7 @@ if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
     /usr/bin/bbb-conf --setip "$THIS_HOST"
 fi;
 
-LOCAL_IP=`ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v ^127` 
+LOCAL_IP=`ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v ^127`
 sed -i 's/data="local_ip_v4=.*"/data="local_ip_v4='$LOCAL_IP'"/g' /opt/freeswitch/conf/vars.xml
 
 sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/nginx/sites-available/bigbluebutton
@@ -49,21 +49,25 @@ if [ -f /local/certs/bbb-dev-ca.crt ]; then
 fi;
 
 
-# https://docs.bigbluebutton.org/2.4/dev.html#switch-nginx-to-redirect-requests-to-meteor 
+# https://docs.bigbluebutton.org/2.4/dev.html#switch-nginx-to-redirect-requests-to-meteor
 cat /usr/share/bigbluebutton/nginx/bbb-html5.nginx  | grep "for production" -v > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /usr/share/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
 cat /usr/share/bigbluebutton/nginx/bbb-html5.nginx | sed 's|# proxy_pass http://127.0.0.1:4100; # use for development|proxy_pass http://127.0.0.1:4100; # use for development|g' > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /usr/share/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
 #systemctl enable nginx
-systemctl restart nginx
 
 #systemctl enable tomcat9
 #systemctl start tomcat9
 
 
 #Ensure that IP is correct for configs of mediasoup, kurento, freeswitch
+sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /usr/share/bigbluebutton/nginx/sip.nginx
+systemctl restart nginx
+
+FREESWITCH_CONFIG_PREV_CONTENT=$(sudo cat /opt/freeswitch/etc/freeswitch/vars.xml /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml)
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/vars.xml
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml
+[ "$FREESWITCH_CONFIG_PREV_CONTENT" != "$(sudo cat /opt/freeswitch/etc/freeswitch/vars.xml /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml)" ] && sudo systemctl restart freeswitch
 
-sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /usr/share/bigbluebutton/nginx/sip.nginx
+WEBRTCSFU_CONFIG_PREV_CONTENT=$(cat /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml)
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].ip "0.0.0.0"
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].announcedIp $LOCAL_IP
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.plainRtp.listenIp.ip "0.0.0.0"
@@ -72,17 +76,22 @@ yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml "kurento[0].i
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml "kurento[0].url" ws://127.0.0.1:8888/kurento
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.ip $LOCAL_IP
 yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.sip_ip $LOCAL_IP
+[ "$WEBRTCSFU_CONFIG_PREV_CONTENT" != "$(cat /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml)" ] && sudo systemctl restart bbb-webrtc-sfu
 
 #html5: set correct hostname
+BBBHTML5_CONFIG_PREV_CONTENT=$(cat /etc/bigbluebutton/bbb-html5.yml)
 sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.pads.url "https://$(hostname -f)/pad"
 sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.kurento.wsUrl "wss://$(hostname -f)/bbb-webrtc-sfu"
+[ "$BBBHTML5_CONFIG_PREV_CONTENT" != "$(cat /etc/bigbluebutton/bbb-html5.yml)" ] && sudo systemctl restart bbb-html5
 
 #bbb-web: set securitySalt
+BBBWEB_CONFIG_PREV_CONTENT=$(cat /etc/bigbluebutton/bbb-web.properties)
 sudo sed -i "/securitySalt=/d" /etc/bigbluebutton/bbb-web.properties || true
 echo "securitySalt=$(sudo bbb-conf --salt | grep Secret: | cut -d ' ' -f 6)" | sudo tee -a /etc/bigbluebutton/bbb-web.properties
+[ "$BBBWEB_CONFIG_PREV_CONTENT" != "$(cat /etc/bigbluebutton/bbb-web.properties)" ] && sudo systemctl restart bbb-web
 
-/usr/bin/bbb-conf --restart
-
+#Avoid restarting BBB to speed up the environment startup
+# /usr/bin/bbb-conf --restart
 
 mkdir -p /usr/share/bbb-libreoffice
 cd /usr/share/bbb-libreoffice
