@@ -100,14 +100,13 @@ apt-get install -y git-core ant ant-contrib openjdk-11-jdk-headless
 
 # Install Sipp for dial-in tests
 apt install -y pkg-config dh-autoreconf ncurses-dev build-essential libssl-dev libpcap-dev libncurses5-dev libsctp-dev lksctp-tools cmake
-cd
-git clone --recurse-submodules https://github.com/SIPp/sipp.git
-cd sipp
+git clone --recurse-submodules https://github.com/SIPp/sipp.git /opt/sipp
+cd /opt/sipp
 cmake . -DUSE_SSL=1 -DUSE_SCTP=1 -DUSE_PCAP=1 -DUSE_GSL=1
 make
 sudo make install
-cd
-rm -r sipp
+rm -r /opt/sipp/gtest
+rm -r /opt/sipp/src
 
 # Set dial plan for internal calls
 cat << EOF > "/opt/freeswitch/conf/dialplan/public/bbb_sip.xml"
