@@ -23,7 +23,7 @@ if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
     /usr/bin/bbb-conf --setip "$THIS_HOST"
 fi;
 
-LOCAL_IP=`ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v ^127`
+LOCAL_IP=`hostname -I | awk '{print $1}'`
 sed -i 's/data="local_ip_v4=.*"/data="local_ip_v4='$LOCAL_IP'"/g' /opt/freeswitch/conf/vars.xml
 
 sed -i 's/bbb-docker-build.bbb.imdt.dev/'`hostname -f`'/g' /etc/nginx/sites-available/bigbluebutton
