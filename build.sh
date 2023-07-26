@@ -46,7 +46,7 @@ wget "$CERT_PRIVKEY_URL" -O certs/privkey.pem
 
 docker kill bbb_docker_build &> /dev/null || echo 
 docker rm bbb_docker_build &> /dev/null || echo 
-docker run -v`pwd`/certs/fullchain.pem:/etc/letsencrypt/live/bbb-docker-build.bbbvm.imdt.com.br/fullchain.pem -v`pwd`/certs/privkey.pem:/etc/letsencrypt/live/bbb-docker-build.bbbvm.imdt.com.br/privkey.pem --cgroupns=host -v docker_in_docker_build:/var/lib/docker --tmpfs /run --tmpfs /run/lock --tmpfs /tmp:exec,mode=1777 --privileged --cap-add NET_ADMIN --cap-add SYS_ADMIN -e container=docker --security-opt seccomp=unconfined  --name bbb_docker_build --hostname bbb-docker-build.bbbvm.imdt.com.br -d bbb_docker_build
+docker run -v`pwd`/certs/fullchain.pem:/etc/letsencrypt/live/bbb-docker-build.bbb.imdt.dev/fullchain.pem -v`pwd`/certs/privkey.pem:/etc/letsencrypt/live/bbb-docker-build.bbb.imdt.dev/privkey.pem --cgroupns=host -v docker_in_docker_build:/var/lib/docker --tmpfs /run --tmpfs /run/lock --tmpfs /tmp:exec,mode=1777 --privileged --cap-add NET_ADMIN --cap-add SYS_ADMIN -e container=docker --security-opt seccomp=unconfined  --name bbb_docker_build --hostname bbb-docker-build.bbb.imdt.dev -d bbb_docker_build
 
 sleep 5
 

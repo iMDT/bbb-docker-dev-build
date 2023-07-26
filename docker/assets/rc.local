@@ -26,12 +26,12 @@ fi;
 LOCAL_IP=`ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v ^127` 
 sed -i 's/data="local_ip_v4=.*"/data="local_ip_v4='$LOCAL_IP'"/g' /opt/freeswitch/conf/vars.xml
 
-sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/nginx/sites-available/bigbluebutton
+sed -i 's/bbb-docker-build.bbb.imdt.dev/'`hostname -f`'/g' /etc/nginx/sites-available/bigbluebutton
 
 # Tweak COTURN configs with correct hostname and IP
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /etc/turnserver.conf
-sudo sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/turnserver.conf
-sudo sed -i 's/bbb-docker-build.bbbvm.imdt.com.br/'`hostname -f`'/g' /etc/bigbluebutton/turn-stun-servers.xml
+sudo sed -i 's/bbb-docker-build.bbb.imdt.dev/'`hostname -f`'/g' /etc/turnserver.conf
+sudo sed -i 's/bbb-docker-build.bbb.imdt.dev/'`hostname -f`'/g' /etc/bigbluebutton/turn-stun-servers.xml
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /etc/haproxy/haproxy.cfg
 systemctl reload haproxy
 
