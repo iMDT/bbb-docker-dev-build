@@ -6,9 +6,11 @@ LABEL authors="Fred Dixon, Anton Georgiev"
 ENV DEBIAN_FRONTEND noninteractive
 ENV container docker
 
+RUN apt-get update && apt-get install -y locales
+
 RUN update-locale LANG=en_US.UTF-8
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get install -y       \
   apt-transport-https        \
   apt-utils                  \
   ca-certificates            \
