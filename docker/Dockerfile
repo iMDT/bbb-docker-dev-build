@@ -6,26 +6,37 @@ LABEL authors="Fred Dixon, Anton Georgiev"
 ENV DEBIAN_FRONTEND noninteractive
 ENV container docker
 
-RUN apt update 
-RUN apt install -y wget apt-transport-https curl ca-certificates
-RUN apt install -y language-pack-en
 RUN update-locale LANG=en_US.UTF-8
-RUN apt install -y --no-install-recommends apt-utils
-RUN apt install -y wget software-properties-common
-RUN apt install -y plocate strace iputils-ping telnet tcpdump vim htop
+
+RUN apt-get update && apt-get install -y \
+  apt-transport-https        \
+  apt-utils                  \
+  ca-certificates            \
+  curl                       \
+  haveged                    \
+  htop                       \
+  iputils-ping               \
+  language-pack-en           \
+  net-tools                  \
+  software-properties-common \
+  strace                     \
+  sudo                       \
+  tcpdump                    \
+  telnet                     \
+  vim                        \
+  wget                       \
+  && apt-get clean           \
+  && rm -rf /var/lib/apt/lists/*
 
 # -- Anticipate docker user and group creation (for ubuntu 22 docker-in-docker compatibility)
 RUN groupadd -o -g 999 docker
 
 # -- Install yq 
-RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq
-RUN apt update
-RUN LC_CTYPE=C.UTF-8 apt install yq -y
-
-RUN apt-get install -y \
-  haveged    \
-  net-tools  \
-  sudo
+RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq && \
+  apt-get update &&          \
+  apt-get install yq -y      \
+  && apt-get clean           \
+  && rm -rf /var/lib/apt/lists/*
 
 # -- Modify systemd to be able to run inside container
 RUN apt-get update \
@@ -61,4 +72,3 @@ ADD ./assets/haveged.service /etc/systemd/system/default.target.wants/haveged.se
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d 
 
 ENTRYPOINT ["/bin/systemd", "--system", "--unit=multi-user.target"]
-
