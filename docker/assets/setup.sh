@@ -84,7 +84,7 @@ sudo systemctl disable e2scrub_reap haveged systemd-pstore systemd-timesyncd app
 
 # Enable bbb services (that is not being enabled properly during bbb-install
 # Enabled already: bbb-apps-akka bbb-fsesl-akka bbb-rap-caption-inbox bbb-rap-resque-worker bbb-rap-starter
-sudo systemctl enable bbb-export-annotations bbb-html5 bbb-pads bbb-web bbb-webrtc-sfu disable-transparent-huge-pages etherpad freeswitch kurento-media-server
+sudo systemctl enable bbb-export-annotations bbb-html5 bbb-pads bbb-web bbb-webrtc-sfu disable-transparent-huge-pages etherpad freeswitch bbb-graphql-server bbb-graphql-middleware
 
 # Install ssh server
 apt install -y openssh-server
