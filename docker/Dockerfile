@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y locales
 
 RUN update-locale LANG=en_US.UTF-8
 
+RUN locale-gen en_US.UTF-8
+
 RUN apt-get install -y       \
   apt-transport-https        \
   apt-utils                  \
