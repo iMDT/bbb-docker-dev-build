@@ -8,10 +8,6 @@ ENV container docker
 
 RUN apt-get update && apt-get install -y locales
 
-RUN locale-gen en_US.UTF-8
-
-RUN update-locale LANG=en_US.UTF-8
-
 RUN apt-get install -y       \
   apt-transport-https        \
   apt-utils                  \
@@ -31,6 +27,9 @@ RUN apt-get install -y       \
   wget                       \
   && apt-get clean           \
   && rm -rf /var/lib/apt/lists/*
+
+RUN locale-gen en_US.UTF-8
+RUN update-locale LANG=en_US.UTF-8
 
 # -- Anticipate docker user and group creation (for ubuntu 22 docker-in-docker compatibility)
 RUN groupadd -o -g 999 docker
