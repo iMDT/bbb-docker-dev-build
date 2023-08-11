@@ -96,7 +96,7 @@ apt install -y zsh
 apt install -y ruby-dev libsystemd-dev
 
 # Install build tools for java
-apt-get install -y git-core ant ant-contrib openjdk-11-jdk-headless
+apt-get install -y git-core ant ant-contrib openjdk-17-jdk-headless
 
 # Install Sipp for dial-in tests
 apt install -y pkg-config dh-autoreconf ncurses-dev build-essential libssl-dev libpcap-dev libncurses5-dev libsctp-dev lksctp-tools cmake
