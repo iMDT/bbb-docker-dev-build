@@ -176,7 +176,8 @@ EOF
 
 
 # Update files
-updatedb
+sudo apt-get -y install plocate
+sudo updatedb
 
 # Clear docker
 sudo systemctl stop docker.socket
