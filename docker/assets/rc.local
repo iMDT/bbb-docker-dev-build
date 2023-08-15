@@ -68,20 +68,20 @@ sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /opt/freeswitch/etc/freeswitch/sip_profil
 [ "$FREESWITCH_CONFIG_PREV_CONTENT" != "$(sudo cat /opt/freeswitch/etc/freeswitch/vars.xml /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml)" ] && sudo systemctl restart freeswitch
 
 WEBRTCSFU_CONFIG_PREV_CONTENT=$(cat /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml)
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].ip "0.0.0.0"
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.webrtc.listenIps[0].announcedIp $LOCAL_IP
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.plainRtp.listenIp.ip "0.0.0.0"
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml mediasoup.plainRtp.listenIp.announcedIp $LOCAL_IP
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml "kurento[0].ip" $LOCAL_IP
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml "kurento[0].url" ws://127.0.0.1:8888/kurento
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.ip $LOCAL_IP
-yq w -i /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml freeswitch.sip_ip $LOCAL_IP
+yq e -i '.mediasoup.webrtc.listenIps[0].ip = "0.0.0.0"' /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+yq e -i ".mediasoup.webrtc.listenIps[0].announcedIp = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+yq e -i '.mediasoup.plainRtp.listenIp.ip = "0.0.0.0"' /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+yq e -i ".mediasoup.plainRtp.listenIp.announcedIp = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+yq e -i ".kurento[0].ip \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+#yq e -i '.kurento[0].url = ws://127.0.0.1:8888/kurento' /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+yq e -i ".freeswitch.ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+yq e -i".freeswitch.sip_ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 [ "$WEBRTCSFU_CONFIG_PREV_CONTENT" != "$(cat /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml)" ] && sudo systemctl restart bbb-webrtc-sfu
 
 #html5: set correct hostname
 BBBHTML5_CONFIG_PREV_CONTENT=$(cat /etc/bigbluebutton/bbb-html5.yml)
-sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.pads.url "https://$(hostname -f)/pad"
-sudo yq w -i /etc/bigbluebutton/bbb-html5.yml public.kurento.wsUrl "wss://$(hostname -f)/bbb-webrtc-sfu"
+sudo yq e -i ".public.pads.url = https://$(hostname -f)/pad" /etc/bigbluebutton/bbb-html5.yml
+sudo yq e -i ".public.kurento.wsUrl = wss://$(hostname -f)/bbb-webrtc-sfu" /etc/bigbluebutton/bbb-html5.yml
 [ "$BBBHTML5_CONFIG_PREV_CONTENT" != "$(cat /etc/bigbluebutton/bbb-html5.yml)" ] && sudo systemctl restart bbb-html5
 
 #bbb-web: set securitySalt
