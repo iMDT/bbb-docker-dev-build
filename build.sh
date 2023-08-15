@@ -14,7 +14,7 @@ if [ "$DOCKER_CHECK"  = "0" ]; then
 	apt update;
 	apt install apt-transport-https ca-certificates curl software-properties-common
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
 	apt update
 	apt install docker-ce -y
 	systemctl enable docker
@@ -57,3 +57,4 @@ docker exec -u root bbb_docker_build sh -c " rm /opt/docker-bbb/setup.sh "
 docker exec -u root bbb_docker_build sh -c " halt "
 
 echo " halt"
+
