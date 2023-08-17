@@ -72,6 +72,9 @@ sudo touch /etc/bigbluebutton/bbb-html5.yml;
 sudo yq e -i '.public.media.sipjsHackViaWs = true' /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
 sudo yq e -i '.public.media.sipjsHackViaWs = true' /etc/bigbluebutton/bbb-html5.yml
 
+#Enable Hasura console
+sudo sed -i 's/HASURA_GRAPHQL_ENABLE_CONSOLE=false/HASURA_GRAPHQL_ENABLE_CONSOLE=true/g' /etc/default/bbb-graphql-server
+
 mkdir /home/bigbluebutton/
 chown bigbluebutton /home/bigbluebutton/ -R
 

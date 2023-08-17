@@ -75,7 +75,7 @@ yq e -i ".mediasoup.plainRtp.listenIp.announcedIp = \"$LOCAL_IP\"" /usr/local/bi
 yq e -i ".kurento[0].ip \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 #yq e -i '.kurento[0].url = ws://127.0.0.1:8888/kurento' /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 yq e -i ".freeswitch.ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
-yq e -i".freeswitch.sip_ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+yq e -i ".freeswitch.sip_ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 [ "$WEBRTCSFU_CONFIG_PREV_CONTENT" != "$(cat /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml)" ] && sudo systemctl restart bbb-webrtc-sfu
 
 #html5: set correct hostname
