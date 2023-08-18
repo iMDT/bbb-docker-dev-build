@@ -72,7 +72,7 @@ yq e -i '.mediasoup.webrtc.listenIps[0].ip = "0.0.0.0"' /usr/local/bigbluebutton
 yq e -i ".mediasoup.webrtc.listenIps[0].announcedIp = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 yq e -i '.mediasoup.plainRtp.listenIp.ip = "0.0.0.0"' /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 yq e -i ".mediasoup.plainRtp.listenIp.announcedIp = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
-yq e -i ".kurento[0].ip \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
+yq e -i '.kurento[0].ip = "$LOCAL_IP"' /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 #yq e -i '.kurento[0].url = ws://127.0.0.1:8888/kurento' /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 yq e -i ".freeswitch.ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
 yq e -i ".freeswitch.sip_ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc-sfu/config/default.yml
@@ -80,8 +80,8 @@ yq e -i ".freeswitch.sip_ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc
 
 #html5: set correct hostname
 BBBHTML5_CONFIG_PREV_CONTENT=$(cat /etc/bigbluebutton/bbb-html5.yml)
-sudo yq e -i ".public.pads.url = https://$(hostname -f)/pad" /etc/bigbluebutton/bbb-html5.yml
-sudo yq e -i ".public.kurento.wsUrl = wss://$(hostname -f)/bbb-webrtc-sfu" /etc/bigbluebutton/bbb-html5.yml
+sudo yq e -i ".public.pads.url = \"https://$(hostname -f)/pad\"" /etc/bigbluebutton/bbb-html5.yml
+sudo yq e -i ".public.kurento.wsUrl = \"wss://$(hostname -f)/bbb-webrtc-sfu\"" /etc/bigbluebutton/bbb-html5.yml
 [ "$BBBHTML5_CONFIG_PREV_CONTENT" != "$(cat /etc/bigbluebutton/bbb-html5.yml)" ] && sudo systemctl restart bbb-html5
 
 #bbb-web: set securitySalt
