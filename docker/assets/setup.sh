@@ -94,7 +94,7 @@ sudo systemctl daemon-reload
 sudo systemctl start bbb-graphql-server || echo "bbb-graphql-server service could not be registered or started"
 # Apply BBB metadata in Hasura
 cd /usr/share/bbb-graphql-server
-/usr/local/bin/hasura/hasura metadata apply
+hasura metadata apply
 cd ..
 #rm -rf /usr/share/bbb-graphql-server/metadata
 
