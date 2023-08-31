@@ -96,13 +96,13 @@ apt install -y zsh
 apt install -y ruby-dev libsystemd-dev
 
 # Install build tools for java
-apt-get install -y git-core ant ant-contrib openjdk-11-jdk-headless
+apt-get install -y git-core ant ant-contrib openjdk-17-jdk-headless
 
 su bigbluebutton -c bash -l << 'EOF'
     # Install build tools for html5
     curl https://install.meteor.com/ | sh
 
-    echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
+    echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.profile
     echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
     source ~/.profile
 
@@ -110,7 +110,7 @@ su bigbluebutton -c bash -l << 'EOF'
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 
     sdk install gradle 7.3.1
-    sdk install grails 5.0.1
+    sdk install grails 5.3.2
     sdk install sbt 1.6.2
     sdk install maven 3.5.0
 
