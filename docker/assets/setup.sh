@@ -100,7 +100,9 @@ apt-get install -y git-core ant ant-contrib openjdk-17-jdk-headless
 
 su bigbluebutton -c bash -l << 'EOF'
     # Install build tools for html5
-    curl https://install.meteor.com/ | sh
+    #curl https://install.meteor.com/ | sh
+    #Force version 2.13 because it can't run 2.13.1 https://github.com/meteor/meteor/issues/12771
+    curl https://install.meteor.com/ | sed 's/RELEASE="2.13.*"/RELEASE="2.13"/' | sh
 
     echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.profile
     echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
