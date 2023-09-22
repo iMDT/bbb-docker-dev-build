@@ -163,29 +163,29 @@ su bigbluebutton -c bash -l << 'EOF'
     ' >> $HOME/.zshrc
 
     # Build source artifacts ( to have dependencies cached )
-    cd ~
-    git clone --single-branch --branch v2.7.x-release https://github.com/bigbluebutton/bigbluebutton.git
+    #cd ~
+    #git clone --single-branch --branch v3.0.x-release https://github.com/bigbluebutton/bigbluebutton.git
     #git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
-     
-    cd bigbluebutton
-     
-    cd bbb-common-message/
-    ./deploy.sh
-    cd ..
-     
-    cd bbb-common-web/
-    ./deploy.sh
-    cd ..
-
-    cd bigbluebutton-web/
-    ./build.sh </dev/null
-    cd ..
     
-    cd bigbluebutton-html5/
-    npm install
-    cd ..
+    #cd bigbluebutton
+     
+    #cd bbb-common-message/
+    #./deploy.sh
+    #cd ..
+     
+    #cd bbb-common-web/
+    #./deploy.sh
+    #cd ..
 
-    rm -rf ~/bigbluebutton/
+    #cd bigbluebutton-web/
+    #./build.sh </dev/null
+    #cd ..
+    
+    #cd bigbluebutton-html5/
+    #npm install
+    #cd ..
+
+    #rm -rf ~/bigbluebutton/
 EOF
 
 
