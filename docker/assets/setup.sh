@@ -165,6 +165,7 @@ su bigbluebutton -c bash -l << 'EOF'
     # Create sbt directories to set bigbluebutton as owner
     mkdir $HOME/.ivy2
     mkdir $HOME/.m2
+    mkdir $HOME/.gradle
 
     # Build source artifacts ( to have dependencies cached )
     #cd ~
