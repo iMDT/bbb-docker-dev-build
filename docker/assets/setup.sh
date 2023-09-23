@@ -162,10 +162,11 @@ su bigbluebutton -c bash -l << 'EOF'
          source "$HOME/.sdkman/bin/sdkman-init.sh"
     ' >> $HOME/.zshrc
 
-    # Create sbt directories to set bigbluebutton as owner
+    # Create sbt/gradle/npm directories to set bigbluebutton as owner
     mkdir $HOME/.ivy2
     mkdir $HOME/.m2
     mkdir $HOME/.gradle
+    mkdir $HOME/.npm
 
     # Build source artifacts ( to have dependencies cached )
     #cd ~
