@@ -75,6 +75,7 @@ sudo yq e -i '.public.media.sipjsHackViaWs = true' /etc/bigbluebutton/bbb-html5.
 #Enable Hasura console
 sudo sed -i 's/HASURA_GRAPHQL_ENABLE_CONSOLE=false/HASURA_GRAPHQL_ENABLE_CONSOLE=true/g' /etc/default/bbb-graphql-server
 
+
 mkdir /home/bigbluebutton/
 chown bigbluebutton /home/bigbluebutton/ -R
 
