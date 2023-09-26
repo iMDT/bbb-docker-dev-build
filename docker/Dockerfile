@@ -1,28 +1,46 @@
-FROM ubuntu:20.04
-MAINTAINER ffdixon@bigbluebutton.org
+FROM ubuntu:22.04
+LABEL authors="Fred Dixon, Anton Georgiev"
 
 #Force rebuild - 26.11.2021 
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV container docker
 
-RUN apt update 
-RUN apt install -y wget apt-transport-https curl
-RUN apt install -y language-pack-en
+RUN apt-get update && apt-get install -y locales
+
+RUN locale-gen en_US.UTF-8
+
 RUN update-locale LANG=en_US.UTF-8
-RUN apt install -y --no-install-recommends apt-utils
-RUN apt install -y wget software-properties-common
-RUN apt install -y mlocate strace iputils-ping telnet tcpdump vim htop
+
+RUN apt-get install -y       \
+  apt-transport-https        \
+  apt-utils                  \
+  ca-certificates            \
+  curl                       \
+  haveged                    \
+  htop                       \
+  iputils-ping               \
+  language-pack-en           \
+  net-tools                  \
+  software-properties-common \
+  strace                     \
+  sudo                       \
+  tcpdump                    \
+  telnet                     \
+  vim                        \
+  wget                       \
+  && apt-get clean           \
+  && rm -rf /var/lib/apt/lists/*
+
+# -- Anticipate docker user and group creation (for ubuntu 22 docker-in-docker compatibility)
+RUN groupadd -o -g 999 docker
 
 # -- Install yq 
-# RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq
-# RUN apt update
-# RUN LC_CTYPE=C.UTF-8 apt install yq -y
-
-RUN apt-get install -y \
-  haveged    \
-  net-tools  \
-  sudo
+RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq && \
+  apt-get update &&          \
+  apt-get install yq -y      \
+  && apt-get clean           \
+  && rm -rf /var/lib/apt/lists/*
 
 # -- Modify systemd to be able to run inside container
 RUN apt-get update \
@@ -39,8 +57,7 @@ RUN systemctl disable systemd-update-utmp.service
 #    Add a number there to force update files
 ADD assets/nocache /root
 RUN mkdir /opt/docker-bbb/
-RUN wget https://ubuntu.bigbluebutton.org/bbb-install-2.5.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
-# RUN wget https://ubuntu.bigbluebutton.org/bbb-install-25.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
+RUN wget https://raw.githubusercontent.com/bigbluebutton/bbb-install/v3.0.x-release/bbb-install.sh -O- | sed 's|https://\$PACKAGE_REPOSITORY|http://\$PACKAGE_REPOSITORY|g' > /opt/docker-bbb/bbb-install.sh
 
 RUN chmod 755 /opt/docker-bbb/bbb-install.sh
 ADD ./assets/setup.sh /opt/docker-bbb/setup.sh
@@ -59,4 +76,3 @@ ADD ./assets/haveged.service /etc/systemd/system/default.target.wants/haveged.se
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d 
 
 ENTRYPOINT ["/bin/systemd", "--system", "--unit=multi-user.target"]
-

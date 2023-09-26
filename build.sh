@@ -14,7 +14,7 @@ if [ "$DOCKER_CHECK"  = "0" ]; then
 	apt update;
 	apt install apt-transport-https ca-certificates curl software-properties-common
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
 	apt update
 	apt install docker-ce -y
 	systemctl enable docker
@@ -46,10 +46,15 @@ wget "$CERT_PRIVKEY_URL" -O certs/privkey.pem
 
 docker kill bbb_docker_build &> /dev/null || echo 
 docker rm bbb_docker_build &> /dev/null || echo 
-docker run -v`pwd`/certs/fullchain.pem:/etc/letsencrypt/live/bbb-docker-build.bbb.imdt.dev/fullchain.pem -v`pwd`/certs/privkey.pem:/etc/letsencrypt/live/bbb-docker-build.bbb.imdt.dev/privkey.pem  --cgroupns=host -v docker_in_docker_build:/var/lib/docker --tmpfs /run --tmpfs /run/lock --tmpfs /tmp:exec,mode=1777 --privileged --cap-add NET_ADMIN --cap-add SYS_ADMIN -e container=docker --security-opt seccomp=unconfined  --name bbb_docker_build --hostname bbb-docker-build.bbb.imdt.dev -d bbb_docker_build
+docker run -v`pwd`/certs/fullchain.pem:/etc/letsencrypt/live/bbb-docker-build.bbb.imdt.dev/fullchain.pem -v`pwd`/certs/privkey.pem:/etc/letsencrypt/live/bbb-docker-build.bbb.imdt.dev/privkey.pem --cgroupns=host -v docker_in_docker_build:/var/lib/docker --tmpfs /run --tmpfs /run/lock --tmpfs /tmp:exec,mode=1777 --privileged --cap-add NET_ADMIN --cap-add SYS_ADMIN -e container=docker --security-opt seccomp=unconfined  --name bbb_docker_build --hostname bbb-docker-build.bbb.imdt.dev -d bbb_docker_build
+
+sleep 5
+
+docker logs bbb_docker_build
 
 docker exec -u root bbb_docker_build sh -c " /opt/docker-bbb/setup.sh || ( echo ERROR ; sleep 100000 ) "
 docker exec -u root bbb_docker_build sh -c " rm /opt/docker-bbb/setup.sh "
 docker exec -u root bbb_docker_build sh -c " halt "
 
 echo " halt"
+
