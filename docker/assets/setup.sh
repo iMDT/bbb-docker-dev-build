@@ -45,7 +45,7 @@ systemctl start nginx
 sudo apt install -y rsyslog
 # [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
 
-./bbb-install.sh -d -s "`hostname -f`" -v jammy-28-develop
+./bbb-install.sh -d -s "`hostname -f`" -v jammy-30-develop
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
