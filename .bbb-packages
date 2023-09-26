@@ -1,1 +1,28 @@
-Test
+Origin: BigBlueButton
+Label: BigBlueButton
+Codename: bigbluebutton-jammy
+Date: Tue, 26 Sep 2023 17:10:13 UTC
+Architectures: i386 amd64
+Components: main
+Description: BigBlueButton APT Repository
+MD5Sum:
+ 85d719ad3cdbdcd0b519676d5cfb385e 1100 main/binary-i386/Packages
+ 8ba76f5cf9c3455773c72de80edf6c07 563 main/binary-i386/Packages.gz
+ 8b41d0d9b49630762c6558ce5d361c69 120 main/binary-i386/Release
+ a2e040da0c42116020ecb932f5d291eb 16828 main/binary-amd64/Packages
+ 21565e2ad5786897bcc8ebab6e04ab1a 4803 main/binary-amd64/Packages.gz
+ 56341df03caf409f22daa4774b63b405 121 main/binary-amd64/Release
+SHA1:
+ 6396d5e43d6d694c86c298592ed3d9975ff711ab 1100 main/binary-i386/Packages
+ 6b0118825581f1ebfee60eb1192c1a2fb9fadce6 563 main/binary-i386/Packages.gz
+ adc35ab4d7a31c820f4b086fcc6783e653cd10b6 120 main/binary-i386/Release
+ 57cf7963ec1a51ebf00b275b78879f79a89d0f94 16828 main/binary-amd64/Packages
+ 2599329c3c0ba3f4a59ddb32a148e9cd1f4490f5 4803 main/binary-amd64/Packages.gz
+ 830ec455859e617c654e34b2d97ccab182a640b1 121 main/binary-amd64/Release
+SHA256:
+ 2ca4c23132d6cc591765260895f8e35bb509dc138042df8a2c76f878c4e9299b 1100 main/binary-i386/Packages
+ 685fa06be54efd8d8da7f3d3c29faa98616e7cd712f7b5b48698baecc60190af 563 main/binary-i386/Packages.gz
+ 8b424315496b061b64d2fd8650b519386793b7d86af9b0ba3200796650371f18 120 main/binary-i386/Release
+ 2b9d543d0f632d8397ef7995615637d31b0f3948b0ce27d809c24b467d6f5beb 16828 main/binary-amd64/Packages
+ aa96504d64ceecb97096e8bef72b28f30c786465fdf077650d4c3d1d3f655b1f 4803 main/binary-amd64/Packages.gz
+ 09281840b7b0a713e1a722e62f48a8cc836712c91100151e63871745fea5ec98 121 main/binary-amd64/Release
