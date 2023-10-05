@@ -140,6 +140,7 @@ su bigbluebutton -c bash -l << 'EOF'
     #Force version 2.13 because it can't run 2.13.1 https://github.com/meteor/meteor/issues/12771
     curl https://install.meteor.com/ | sed 's/RELEASE="2.13.*"/RELEASE="2.13"/' | sh
 
+    # Install build tools for bbb-web and akka-apps
     echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.profile
     echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
     source ~/.profile
@@ -172,6 +173,7 @@ su bigbluebutton -c bash -l << 'EOF'
     mkdir -p $HOME/.npm
 
     # Build source artifacts ( to have dependencies cached )
+    # The lines bellow is commented since the container will mount the cache dirs of its host
     #cd ~
     #git clone --single-branch --branch v3.0.x-release https://github.com/bigbluebutton/bigbluebutton.git
     #git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
@@ -195,6 +197,15 @@ su bigbluebutton -c bash -l << 'EOF'
     #cd ..
 
     #rm -rf ~/bigbluebutton/
+
+
+    # Install build tools for bbb-graphql-middleware
+    GO_VERSION=1.20.8
+    wget --no-verbose https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz \
+      && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
+      && rm go${GO_VERSION}.linux-amd64.tar.gz \
+      && ln -sf /usr/local/go/bin/go /usr/bin/go
+
 EOF
 
 
