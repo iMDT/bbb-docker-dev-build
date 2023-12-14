@@ -88,11 +88,11 @@ sudo systemctl disable e2scrub_reap haveged systemd-pstore systemd-timesyncd app
 
 # Enable bbb services (that is not being enabled properly during bbb-install
 # Enabled already: bbb-apps-akka bbb-fsesl-akka bbb-rap-caption-inbox bbb-rap-resque-worker bbb-rap-starter
-sudo systemctl enable bbb-export-annotations bbb-html5 bbb-pads bbb-web bbb-webrtc-sfu disable-transparent-huge-pages etherpad freeswitch bbb-graphql-server bbb-graphql-middleware bbb-graphql-actions-adapter-server
+sudo systemctl enable bbb-export-annotations bbb-html5 bbb-pads bbb-web bbb-webrtc-sfu disable-transparent-huge-pages etherpad freeswitch bbb-graphql-server bbb-graphql-middleware bbb-graphql-actions
 
 # After starting bbb-graphql-server we can configure Hasura
 sudo systemctl daemon-reload
-sudo systemctl start bbb-graphql-actions-adapter-server.service || echo "bbb-graphql-actions-adapter-server service could not be registered or started"
+sudo systemctl start bbb-graphql-actions.service || echo "bbb-graphql-actions service could not be registered or started"
 sudo systemctl start bbb-graphql-server || echo "bbb-graphql-server service could not be registered or started"
 # Apply BBB metadata in Hasura
 cd /usr/share/bbb-graphql-server
