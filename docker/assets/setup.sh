@@ -116,6 +116,7 @@ apt-get install -y git-core ant ant-contrib openjdk-17-jdk-headless
 apt install -y pkg-config dh-autoreconf ncurses-dev build-essential libssl-dev libpcap-dev libncurses5-dev libsctp-dev lksctp-tools cmake
 git clone --recurse-submodules https://github.com/SIPp/sipp.git /opt/sipp
 cd /opt/sipp
+git checkout 4682fdba2b63007f13a632c6eb06f0ece84cb7df
 cmake . -DUSE_SSL=1 -DUSE_SCTP=1 -DUSE_PCAP=1 -DUSE_GSL=1
 make
 sudo make install
