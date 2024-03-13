@@ -83,6 +83,11 @@ sudo yq e -i ".public.pads.url = \"https://$(hostname -f)/pad\"" /etc/bigbluebut
 sudo yq e -i ".public.kurento.wsUrl = \"wss://$(hostname -f)/bbb-webrtc-sfu\"" /etc/bigbluebutton/bbb-html5.yml
 [ "$BBBHTML5_CONFIG_PREV_CONTENT" != "$(cat /etc/bigbluebutton/bbb-html5.yml)" ] && sudo systemctl restart bbb-html5
 
+#html5: make akka-apps read the same settings.yml of bbb-html5 project (using symlink)
+if [ -f /home/bigbluebutton/src/bigbluebutton-html5/private/config/settings.yml ]; then
+  sudo ln -sfn /home/bigbluebutton/src/bigbluebutton-html5/private/config/settings.yml /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
+fi
+
 #bbb-web: set securitySalt
 
 BBBWEB_CONFIG_PREV_CONTENT=$(cat /etc/bigbluebutton/bbb-web.properties)
