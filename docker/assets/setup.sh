@@ -69,7 +69,6 @@ sudo sed -i '/^location \/html5client\/fonts/,+2 s/^/#/' /usr/share/bigbluebutto
 sudo touch /etc/bigbluebutton/bbb-html5.yml;
 
 #html5: set audio via http
-sudo yq e -i '.public.media.sipjsHackViaWs = true' /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
 sudo yq e -i '.public.media.sipjsHackViaWs = true' /etc/bigbluebutton/bbb-html5.yml
 
 #Enable Hasura console
