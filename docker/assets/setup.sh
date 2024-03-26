@@ -59,7 +59,7 @@ echo "NODE_TLS_REJECT_UNAUTHORIZED=0" | sudo tee -a /usr/share/meteor/bundle/bbb
 echo "NODE_TLS_REJECT_UNAUTHORIZED=0" | sudo tee -a /etc/environment
 
 #Switch NginX static resource requests to Meteor
-sudo sed -i '/^location \/html5client\/locales/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+#sudo sed -i '/^location \/html5client\/locales/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '/^location \/html5client\/compatibility/,+3 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '/^location \/html5client\/resources/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '/^location \/html5client\/svgs/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
