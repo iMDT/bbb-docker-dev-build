@@ -64,6 +64,7 @@ sudo sed -i '/^location \/html5client\/compatibility/,+3 s/^/#/' /usr/share/bigb
 sudo sed -i '/^location \/html5client\/resources/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '/^location \/html5client\/svgs/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 sudo sed -i '/^location \/html5client\/fonts/,+2 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+sudo sed -i '/^location \/html5client\/__meteor__\/dynamic-import\/fetch/,+11 s/^/#/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 
 #html5: create config
 sudo touch /etc/bigbluebutton/bbb-html5.yml;
