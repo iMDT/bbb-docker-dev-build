@@ -72,10 +72,10 @@ sudo touch /etc/bigbluebutton/bbb-html5.yml;
 #html5: set audio via http
 sudo yq e -i '.public.media.sipjsHackViaWs = true' /etc/bigbluebutton/bbb-html5.yml
 
-#Enable Hasura console
+#Enable Hasura console and set password to 'bigbluebutton'
 sudo sed -i 's/HASURA_GRAPHQL_ENABLE_CONSOLE=false/HASURA_GRAPHQL_ENABLE_CONSOLE=true/g' /etc/default/bbb-graphql-server
 sudo sed -i 's/HASURA_GRAPHQL_ADMIN_SECRET=.*/HASURA_GRAPHQL_ADMIN_SECRET=bigbluebutton/g' /etc/default/bbb-graphql-server
-
+sudo yq e -i ".admin_secret = \"bigbluebutton\"" /usr/share/bbb-graphql-server/config.yaml
 
 mkdir /home/bigbluebutton/
 chown bigbluebutton /home/bigbluebutton/ -R
