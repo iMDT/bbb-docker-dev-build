@@ -16,6 +16,8 @@ chown root:haproxy /etc/haproxy/certbundle.pem.new
 chmod 0640 /etc/haproxy/certbundle.pem.new
 mv /etc/haproxy/certbundle.pem.new /etc/haproxy/certbundle.pem
 
+#The Docker contain an nginx location for /api-mate to keep the same domain and accept POST requests
+sudo sed -i "s/mconf.github.io/$THIS_HOST/g" /usr/bin/bbb-conf
 
 if [ "$BBB_HOST" != "$THIS_HOST" ] ; then
     sed -i 's/'$BBB_HOST'/'$THIS_HOST'/g' /etc/nginx/sites-available/bigbluebutton
