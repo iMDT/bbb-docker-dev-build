@@ -202,7 +202,7 @@ su bigbluebutton -c bash -l << 'EOF'
 EOF
 
 # Install build tools for bbb-graphql-middleware
-GO_VERSION=1.20.8
+GO_VERSION=1.22.5
 sudo wget --no-verbose https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
 sudo rm go${GO_VERSION}.linux-amd64.tar.gz
