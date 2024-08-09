@@ -49,13 +49,13 @@ sudo apt install -y rsyslog
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
-sudo sed -i '22 s/# proxy_pass/proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
-sudo sed -i '23 s/proxy_pass/# proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+#sudo sed -i '22 s/# proxy_pass/proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+#sudo sed -i '23 s/proxy_pass/# proxy_pass/' /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 # Disable IPv6 localhost listens (nginx can't start with it)
 sudo sed -e '/\[::1\]/ s/^#*/#/' -i /etc/nginx/sites-available/bigbluebutton
 
 #Set NODE_TLS_REJECT_UNAUTHORIZED to make node allow image from self-signed certificate
-echo "NODE_TLS_REJECT_UNAUTHORIZED=0" | sudo tee -a /usr/share/meteor/bundle/bbb-html5-with-roles.conf
+#echo "NODE_TLS_REJECT_UNAUTHORIZED=0" | sudo tee -a /usr/share/meteor/bundle/bbb-html5-with-roles.conf
 echo "NODE_TLS_REJECT_UNAUTHORIZED=0" | sudo tee -a /etc/environment
 
 #Switch NginX static resource requests to Meteor
@@ -89,7 +89,7 @@ sudo systemctl disable e2scrub_reap haveged systemd-pstore systemd-timesyncd app
 
 # Enable bbb services (that is not being enabled properly during bbb-install
 # Enabled already: bbb-apps-akka bbb-fsesl-akka bbb-rap-caption-inbox bbb-rap-resque-worker bbb-rap-starter
-sudo systemctl enable bbb-export-annotations bbb-html5 bbb-pads bbb-web bbb-webrtc-sfu disable-transparent-huge-pages etherpad freeswitch bbb-graphql-server bbb-graphql-middleware bbb-graphql-actions
+sudo systemctl enable bbb-export-annotations bbb-pads bbb-web bbb-webrtc-sfu disable-transparent-huge-pages etherpad freeswitch bbb-graphql-server bbb-graphql-middleware bbb-graphql-actions
 
 # After starting bbb-graphql-server we can configure Hasura
 sudo systemctl daemon-reload
@@ -137,11 +137,6 @@ cat << EOF > "/opt/freeswitch/conf/dialplan/public/bbb_sip.xml"
 EOF
 
 su bigbluebutton -c bash -l << 'EOF'
-    # Install build tools for html5
-    #curl https://install.meteor.com/ | sh
-    #Force version 2.13 because it can't run 2.13.1 https://github.com/meteor/meteor/issues/12771
-    curl https://install.meteor.com/ | sed 's/RELEASE="2.13.*"/RELEASE="2.13"/' | sh
-
     # Install build tools for bbb-web and akka-apps
     echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.profile
     echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
