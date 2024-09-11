@@ -74,7 +74,7 @@ sudo yq e -i '.public.media.sipjsHackViaWs = true' /etc/bigbluebutton/bbb-html5.
 
 #Enable Hasura console and set password to 'bigbluebutton'
 echo "HASURA_GRAPHQL_ENABLE_CONSOLE=true" | sudo tee -a /etc/bigbluebutton/bbb-graphql-server.env
-sudo sed -i 's/HASURA_GRAPHQL_ADMIN_SECRET=.*/HASURA_GRAPHQL_ADMIN_SECRET=bigbluebutton/g' /usr/share/bbb-graphql-server/admin-secret
+sudo sed -i 's/HASURA_GRAPHQL_ADMIN_SECRET=.*/HASURA_GRAPHQL_ADMIN_SECRET=bigbluebutton/g' /etc/default/bbb-graphql-server-admin-pass
 sudo yq e -i ".admin_secret = \"bigbluebutton\"" /usr/share/bbb-graphql-server/config.yaml
 
 mkdir /home/bigbluebutton/
