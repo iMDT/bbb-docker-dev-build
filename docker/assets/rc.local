@@ -85,13 +85,13 @@ sudo yq e -i ".public.pads.url = \"https://$(hostname -f)/pad\"" /etc/bigbluebut
 sudo yq e -i ".public.kurento.wsUrl = \"wss://$(hostname -f)/bbb-webrtc-sfu\"" /etc/bigbluebutton/bbb-html5.yml
 
 #html5: make akka-apps read the same settings.yml of bbb-html5 project (using symlink)
-BBBHTML5_DEFAULT_CONFIG_PREV_CONTENT=$(cat /var/bigbluebutton/html5-client/private/config/settings.yml)
+BBBHTML5_DEFAULT_CONFIG_PREV_CONTENT=$(cat /usr/share/bigbluebutton/html5-client/private/config/settings.yml)
 if [ -f /home/bigbluebutton/src/bigbluebutton-html5/private/config/settings.yml ]; then
-  sudo ln -sfn /home/bigbluebutton/src/bigbluebutton-html5/private/config/settings.yml /var/bigbluebutton/html5-client/private/config/settings.yml
+  sudo ln -sfn /home/bigbluebutton/src/bigbluebutton-html5/private/config/settings.yml /usr/share/bigbluebutton/html5-client/private/config/settings.yml
 fi
 
 if [ "$BBBHTML5_ETC_CONFIG_PREV_CONTENT" != "$(cat /etc/bigbluebutton/bbb-html5.yml)" ] || \
-   [ "$BBBHTML5_DEFAULT_CONFIG_PREV_CONTENT" != "$(cat /var/bigbluebutton/html5-client/private/config/settings.yml)" ]; then
+   [ "$BBBHTML5_DEFAULT_CONFIG_PREV_CONTENT" != "$(cat /usr/share/bigbluebutton/html5-client/private/config/settings.yml)" ]; then
   sudo systemctl restart bbb-apps-akka
 fi
 
