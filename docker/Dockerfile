@@ -75,7 +75,8 @@ RUN chmod 755 /etc/rc.local
 
 ADD ./assets/haveged.service /etc/systemd/system/default.target.wants/haveged.service
 ADD ./assets/hasura-console.nginx /usr/share/bigbluebutton/nginx/hasura-console.nginx
-ADD ./assets/api-mate.nginx /usr/share/bigbluebutton/nginx/api-mate.nginx
+#disable internal api-mate temporarily once it's not working through reverse proxy
+#ADD ./assets/api-mate.nginx /usr/share/bigbluebutton/nginx/api-mate.nginx
 
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d 
 
