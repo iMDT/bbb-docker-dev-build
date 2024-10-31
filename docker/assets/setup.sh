@@ -113,6 +113,11 @@ apt install -y ruby-dev libsystemd-dev
 # Install build tools for java
 apt-get install -y git-core ant ant-contrib openjdk-17-jdk-headless
 
+# Install api-mate to run locally
+sudo mkdir /usr/share/api-mate
+sudo git clone -b gh-pages --single-branch https://github.com/mconf/api-mate.git /usr/share/api-mate/
+
+
 # Install Sipp for dial-in tests
 apt install -y pkg-config dh-autoreconf ncurses-dev build-essential libssl-dev libpcap-dev libncurses5-dev libsctp-dev lksctp-tools cmake
 git clone --recurse-submodules https://github.com/SIPp/sipp.git /opt/sipp
