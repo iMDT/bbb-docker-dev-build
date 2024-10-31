@@ -95,6 +95,11 @@ if [ "$BBBHTML5_ETC_CONFIG_PREV_CONTENT" != "$(cat /etc/bigbluebutton/bbb-html5.
   sudo systemctl restart bbb-apps-akka
 fi
 
+#bbb-graphql-middleware make the service read the same config.yml of the project (using symlink)
+if [ -f /home/bigbluebutton/src/bbb-graphql-middleware/config/config.yml ]; then
+  sudo ln -sfn /home/bigbluebutton/src/bbb-graphql-middleware/config/config.yml /usr/share/bbb-graphql-middleware/config.yml
+  sudo systemctl restart bbb-graphql-middleware
+fi
 
 #bbb-web: set securitySalt
 
