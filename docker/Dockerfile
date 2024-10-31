@@ -19,6 +19,7 @@ RUN apt-get install -y       \
   curl                       \
   haveged                    \
   htop                       \
+  btop                       \
   iputils-ping               \
   language-pack-en           \
   net-tools                  \
