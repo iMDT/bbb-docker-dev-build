@@ -101,7 +101,29 @@ if [ -f /home/bigbluebutton/src/bbb-graphql-middleware/config/config.yml ]; then
   sudo systemctl restart bbb-graphql-middleware
 fi
 
-#bbb-web: set securitySalt
+#bbb-graphql-server make the service read the same hasura-config of the project (using symlink)
+if [ -f /home/bigbluebutton/src/build/packages-template/bbb-graphql-server/hasura-config.env ]; then
+  sudo ln -sfn /home/bigbluebutton/src/build/packages-template/bbb-graphql-server/hasura-config.env /etc/default/bbb-graphql-server
+  sudo systemctl restart bbb-graphql-server
+fi
+
+# use nginx files of the project
+#bbb-web
+sudo ln -sfn /home/bigbluebutton/src/bigbluebutton-web/bbb-web.nginx /usr/share/bigbluebutton/nginx/web
+sudo ln -sfn /home/bigbluebutton/src/bigbluebutton-web/loadbalancer.nginx /usr/share/bigbluebutton/nginx/loadbalancer.nginx
+sudo ln -sfn /home/bigbluebutton/src/bigbluebutton-web/nginx-confs/presentation-slides.nginx /usr/share/bigbluebutton/nginx/presentation-slides.nginx
+#html5
+sudo ln -sfn /home/bigbluebutton/src/build/packages-template/bbb-html5/bbb-html5.nginx /usr/share/bigbluebutton/nginx/bbb-html5.nginx
+sudo ln -sfn /home/bigbluebutton/src/build/packages-template/bbb-html5/bbb-html5.nginx.dev /usr/share/bigbluebutton/nginx/bbb-html5.nginx.dev
+sudo ln -sfn /home/bigbluebutton/src/build/packages-template/bbb-html5/bbb-html5.nginx.static /usr/share/bigbluebutton/nginx/bbb-html5.nginx.static
+sudo ln -sfn /home/bigbluebutton/src/build/packages-template/bbb-html5/sip.nginx /usr/share/bigbluebutton/nginx/sip.nginx
+#others
+sudo ln -sfn /home/bigbluebutton/src/build/packages-template/bbb-graphql-middleware/graphql.nginx /usr/share/bigbluebutton/nginx/graphql.nginx
+sudo ln -sfn/home/bigbluebutton/src/bbb-learning-dashboard/learning-dashboard.nginx /usr/share/bigbluebutton/nginx/learning-dashboard.nginx
+sudo ln -sfn /home/bigbluebutton/src/build/packages-template/bbb-etherpad/notes.nginx /usr/share/bigbluebutton/nginx/notes.nginx
+sudo ln -sfn /home/bigbluebutton/src/build/packages-template/bbb-webrtc-sfu/webrtc-sfu.nginx /usr/share/bigbluebutton/nginx/webrtc-sfu.nginx
+sudo systemctl restart nginx
+
 
 BBBWEB_CONFIG_PREV_CONTENT=$(cat /etc/bigbluebutton/bbb-web.properties)
 sudo sed -i "/securitySalt=/d" /etc/bigbluebutton/bbb-web.properties || true
