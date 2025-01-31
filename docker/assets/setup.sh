@@ -77,6 +77,16 @@ echo "HASURA_GRAPHQL_ENABLE_CONSOLE=true" | sudo tee -a /etc/bigbluebutton/bbb-g
 sudo sed -i 's/HASURA_GRAPHQL_ADMIN_SECRET=.*/HASURA_GRAPHQL_ADMIN_SECRET=bigbluebutton/g' /etc/default/bbb-graphql-server-admin-pass
 sudo yq e -i ".admin_secret = \"bigbluebutton\"" /usr/share/bbb-graphql-server/config.yaml
 
+#Set graphql database password to 'bbb_graphql'
+until sudo runuser -u postgres -- psql -c "SELECT 1" > /dev/null 2>&1; do
+    echo "Waiting for Postgres to be ready..."
+    sleep 1
+done
+echo "PostgreSQL is ready."
+sudo runuser -u postgres -- psql -c "ALTER USER postgres PASSWORD 'bbb_graphql'"
+
+
+
 mkdir /home/bigbluebutton/
 chown bigbluebutton /home/bigbluebutton/ -R
 
@@ -122,7 +132,7 @@ sudo git clone -b gh-pages --single-branch https://github.com/mconf/api-mate.git
 apt install -y pkg-config dh-autoreconf ncurses-dev build-essential libssl-dev libpcap-dev libncurses5-dev libsctp-dev lksctp-tools cmake
 git clone --recurse-submodules https://github.com/SIPp/sipp.git /opt/sipp
 cd /opt/sipp
-git checkout 4682fdba2b63007f13a632c6eb06f0ece84cb7df #Set an old commit once the current code is not working
+git checkout 4682fdba2b63007f13a632c6eb06f0ece84cb7df #Set an old commit as the current code is not working
 cmake . -DUSE_SSL=1 -DUSE_SCTP=1 -DUSE_PCAP=1 -DUSE_GSL=1
 make
 sudo make install
