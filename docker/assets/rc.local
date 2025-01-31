@@ -53,6 +53,14 @@ fi;
 #cat /usr/share/bigbluebutton/nginx/bbb-html5.nginx | sed 's|# proxy_pass http://127.0.0.1:4100; # use for development|proxy_pass http://127.0.0.1:4100; # use for development|g' > /tmp/bbb-html5.nginx ; cat /tmp/bbb-html5.nginx > /usr/share/bigbluebutton/nginx/bbb-html5.nginx ; rm /tmp/bbb-html5.nginx
 #systemctl enable nginx
 
+# disable cache for client locales (static nginx config)
+sudo sed -i '/location \/html5client\/locales {/a \
+  # Prevent browsers from caching\
+  add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0";\
+  add_header Pragma "no-cache";\
+  add_header Expires 0;\
+' /usr/share/bigbluebutton/nginx/bbb-html5.nginx.static
+
 #systemctl enable tomcat9
 #systemctl start tomcat9
 
