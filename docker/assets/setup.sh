@@ -77,6 +77,16 @@ echo "HASURA_GRAPHQL_ENABLE_CONSOLE=true" | sudo tee -a /etc/bigbluebutton/bbb-g
 sudo sed -i 's/HASURA_GRAPHQL_ADMIN_SECRET=.*/HASURA_GRAPHQL_ADMIN_SECRET=bigbluebutton/g' /etc/default/bbb-graphql-server-admin-pass
 sudo yq e -i ".admin_secret = \"bigbluebutton\"" /usr/share/bbb-graphql-server/config.yaml
 
+#Set graphql database password to 'bbb_graphql'
+until sudo runuser -u postgres -- psql -c "SELECT 1" > /dev/null 2>&1; do
+    echo "Waiting for Postgres to be ready..."
+    sleep 1
+done
+echo "PostgreSQL is ready."
+sudo runuser -u postgres -- psql -c "ALTER USER postgres PASSWORD 'bbb_graphql'"
+
+
+
 mkdir /home/bigbluebutton/
 chown bigbluebutton /home/bigbluebutton/ -R
 
