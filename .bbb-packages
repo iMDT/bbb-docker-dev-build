@@ -1,7 +1,7 @@
 Origin: BigBlueButton
 Label: BigBlueButton
 Codename: bigbluebutton-jammy
-Date: Wed, 07 May 2025 21:50:39 UTC
+Date: Thu, 08 May 2025 18:31:45 UTC
 Architectures: i386 amd64
 Components: main
 Description: BigBlueButton APT Repository
@@ -9,20 +9,20 @@ MD5Sum:
  c2b1368b6a422eb2eb506de6a6a74a98 2488 main/binary-i386/Packages
  5ed2239b336f41a04d329d62d1642578 1097 main/binary-i386/Packages.gz
  8b41d0d9b49630762c6558ce5d361c69 120 main/binary-i386/Release
- 6da874563f02bf0749b873224d6167eb 26478 main/binary-amd64/Packages
- bc1ab6769fee689e94ad3a0200519966 7889 main/binary-amd64/Packages.gz
+ 5dfdbc02981219f01b7b2cde0125f8bc 26478 main/binary-amd64/Packages
+ c02713ded1d9bb2d0dbf73a53232ad7e 7890 main/binary-amd64/Packages.gz
  56341df03caf409f22daa4774b63b405 121 main/binary-amd64/Release
 SHA1:
  fd1b913420fa48a7f8401b51c8af7ef0d1d380d0 2488 main/binary-i386/Packages
  583d9cb180378bcc25204e81eae79a6652440390 1097 main/binary-i386/Packages.gz
  adc35ab4d7a31c820f4b086fcc6783e653cd10b6 120 main/binary-i386/Release
- 75e313afba95e59f2f8db2ba7a9fe15040dc61cb 26478 main/binary-amd64/Packages
- c64b0cc9bf494e551f5e003bb8aa494659651faf 7889 main/binary-amd64/Packages.gz
+ 257d1e729d6911b96f417efbe1d019e5d8bb5057 26478 main/binary-amd64/Packages
+ a50ef2ddfe2c7aae9e6f5fe1f60ca204011cd027 7890 main/binary-amd64/Packages.gz
  830ec455859e617c654e34b2d97ccab182a640b1 121 main/binary-amd64/Release
 SHA256:
  53851bcf0497befd0e2a178c9bf3a97a4d2f5d490a5b54d0186a78c72a25e41b 2488 main/binary-i386/Packages
  da16d30431784ec5ebe21044183ed2af90acdf17ea997ced624647eb47ec5150 1097 main/binary-i386/Packages.gz
  8b424315496b061b64d2fd8650b519386793b7d86af9b0ba3200796650371f18 120 main/binary-i386/Release
- febb826d25ffcc8bfc0be50f7468835493d2672340fc4f070a2d41f7854d7019 26478 main/binary-amd64/Packages
- 8f3d1c7479f60bf54cea9e3834e75bfa8aa05e68e351a5ea55940e6058d54bf8 7889 main/binary-amd64/Packages.gz
+ 227c8dbca894807f920a8f66f9aaa4fc48f0dcf100f0ca759c77907278def3f9 26478 main/binary-amd64/Packages
+ 3bf16ca847a29db56e6cc4a0a0229a4225d7594c2efba79fdf232f29c7ad15f0 7890 main/binary-amd64/Packages.gz
  09281840b7b0a713e1a722e62f48a8cc836712c91100151e63871745fea5ec98 121 main/binary-amd64/Release
