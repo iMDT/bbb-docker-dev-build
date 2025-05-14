@@ -1,28 +1,28 @@
 Origin: BigBlueButton
 Label: BigBlueButton
 Codename: bigbluebutton-jammy
-Date: Mon, 12 May 2025 22:39:09 UTC
+Date: Tue, 13 May 2025 18:32:58 UTC
 Architectures: i386 amd64
 Components: main
 Description: BigBlueButton APT Repository
 MD5Sum:
- c2b1368b6a422eb2eb506de6a6a74a98 2488 main/binary-i386/Packages
- 5ed2239b336f41a04d329d62d1642578 1097 main/binary-i386/Packages.gz
+ e859cee2365228c2a09ea152ee040c7d 2488 main/binary-i386/Packages
+ 9383a21eb53669ec576a02bcc52f6487 1094 main/binary-i386/Packages.gz
  8b41d0d9b49630762c6558ce5d361c69 120 main/binary-i386/Release
- f5a2a67a6d7478778a6530625dd40509 26478 main/binary-amd64/Packages
- c8f273d50180bb9ed72c988156524f36 7887 main/binary-amd64/Packages.gz
+ 138f6f89bbd11224afa6a36b76376f13 26478 main/binary-amd64/Packages
+ e6d77553ec816cfa0b163c301c0e8873 7890 main/binary-amd64/Packages.gz
  56341df03caf409f22daa4774b63b405 121 main/binary-amd64/Release
 SHA1:
- fd1b913420fa48a7f8401b51c8af7ef0d1d380d0 2488 main/binary-i386/Packages
- 583d9cb180378bcc25204e81eae79a6652440390 1097 main/binary-i386/Packages.gz
+ 2f4ccea65cc293b9e00b207747e0e211fe24578e 2488 main/binary-i386/Packages
+ 4a233f5f0d0ecde30fad912c6786d7da48445708 1094 main/binary-i386/Packages.gz
  adc35ab4d7a31c820f4b086fcc6783e653cd10b6 120 main/binary-i386/Release
- 9fbf7c72b907de276968082a0223d423e1b2d0a7 26478 main/binary-amd64/Packages
- 65a376333324cf61386e087ba4444344bec1cdf3 7887 main/binary-amd64/Packages.gz
+ 8918b26c51ea925235b76c89f46dbe6548367f75 26478 main/binary-amd64/Packages
+ 53eedbc1e8d1fb1670b5a7eaaaaf7538aff03dfc 7890 main/binary-amd64/Packages.gz
  830ec455859e617c654e34b2d97ccab182a640b1 121 main/binary-amd64/Release
 SHA256:
- 53851bcf0497befd0e2a178c9bf3a97a4d2f5d490a5b54d0186a78c72a25e41b 2488 main/binary-i386/Packages
- da16d30431784ec5ebe21044183ed2af90acdf17ea997ced624647eb47ec5150 1097 main/binary-i386/Packages.gz
+ 9bc2125d5985289197d14ec8d8e7dc629d339cb36dbc5a67258d11440f0dc8fb 2488 main/binary-i386/Packages
+ 127a9fc9884e02c76481af990fa86da7a6d6ae4d4d62847a2f39873899ba17dd 1094 main/binary-i386/Packages.gz
  8b424315496b061b64d2fd8650b519386793b7d86af9b0ba3200796650371f18 120 main/binary-i386/Release
- e352ec1b435fd65442042e1bf351dcc03a32aaeb125d5b6cf0d4901e1b322baa 26478 main/binary-amd64/Packages
- f0f54281cf7309e2c6e033785d826fd60ebf76618042eaa96dfb253eb91deb32 7887 main/binary-amd64/Packages.gz
+ b26b4a88257136f1775a8bf84c135e7c2e9f00c4575812b17b8f039bc7961a84 26478 main/binary-amd64/Packages
+ 0fdf07e36b29cd3c338b9d5d9092735489324c931e34738fe074bc3af91bdd8f 7890 main/binary-amd64/Packages.gz
  09281840b7b0a713e1a722e62f48a8cc836712c91100151e63871745fea5ec98 121 main/binary-amd64/Release
