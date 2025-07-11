@@ -1,0 +1,4 @@
+location /html5Log {
+    access_log /var/log/nginx/html5-client.log postdata;
+    echo_read_request_body;
+}

@@ -75,6 +75,8 @@ RUN chmod 755 /etc/rc.local
 ADD ./assets/haveged.service /etc/systemd/system/default.target.wants/haveged.service
 ADD ./assets/hasura-console.nginx /usr/share/bigbluebutton/nginx/hasura-console.nginx
 ADD ./assets/api-mate.nginx /usr/share/bigbluebutton/nginx/api-mate.nginx
+ADD ./assets/html5-client-log.nginx /etc/bigbluebutton/nginx/html5-client-log.nginx
+ADD ./assets/html5-client-log.conf /etc/nginx/conf.d/html5-client-log.conf
 
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d 
 

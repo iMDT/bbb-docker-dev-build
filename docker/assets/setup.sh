@@ -39,8 +39,16 @@ sed -i 's/bind 127.0.0.1 ::1/bind 0.0.0.0/g'  /etc/redis/redis.conf
 set -e
 
 apt install -yq nginx
+
+# enable server logs for html5-client
+apt install nginx-full
+touch /var/log/nginx/html5-client.log
+chown www-data:adm /var/log/nginx/html5-client.log
+chmod 777 /var/log/nginx/html5-client.log
+
 systemctl enable nginx
 systemctl start nginx
+
 
 sudo apt install -y rsyslog
 # [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
@@ -71,6 +79,10 @@ sudo touch /etc/bigbluebutton/bbb-html5.yml;
 
 #html5: set audio via http
 sudo yq e -i '.public.media.sipjsHackViaWs = true' /etc/bigbluebutton/bbb-html5.yml
+
+#html5: enable server logs for html5-client
+sudo yq e -i '.public.clientLog.external.enabled = true' /etc/bigbluebutton/bbb-html5.yml
+
 
 #Enable Hasura console and set password to 'bigbluebutton'
 echo "HASURA_GRAPHQL_ENABLE_CONSOLE=true" | sudo tee -a /etc/bigbluebutton/bbb-graphql-server.env

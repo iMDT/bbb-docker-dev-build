@@ -91,6 +91,7 @@ yq e -i ".freeswitch.sip_ip = \"$LOCAL_IP\"" /usr/local/bigbluebutton/bbb-webrtc
 BBBHTML5_ETC_CONFIG_PREV_CONTENT=$(cat /etc/bigbluebutton/bbb-html5.yml)
 sudo yq e -i ".public.pads.url = \"https://$(hostname -f)/pad\"" /etc/bigbluebutton/bbb-html5.yml
 sudo yq e -i ".public.kurento.wsUrl = \"wss://$(hostname -f)/bbb-webrtc-sfu\"" /etc/bigbluebutton/bbb-html5.yml
+sudo yq e -i ".public.clientLog.external.url = \"https://$(hostname -f)/html5Log\"" /etc/bigbluebutton/bbb-html5.yml
 
 #html5: make akka-apps read the same settings.yml of bbb-html5 project (using symlink)
 BBBHTML5_DEFAULT_CONFIG_PREV_CONTENT=$(cat /usr/share/bigbluebutton/html5-client/private/config/settings.yml)
