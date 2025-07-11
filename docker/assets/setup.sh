@@ -49,6 +49,8 @@ chmod 777 /var/log/nginx/html5-client.log
 systemctl enable nginx
 systemctl start nginx
 
+# Install jq as it is useful to modify json
+sudo apt install -y jq
 
 sudo apt install -y rsyslog
 # [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
