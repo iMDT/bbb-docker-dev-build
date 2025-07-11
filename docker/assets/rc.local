@@ -64,6 +64,8 @@ sudo sed -i '/location \/html5client\/locales {/a \
 #systemctl enable tomcat9
 #systemctl start tomcat9
 
+#return prod files for html5 (it is replaced when running ./run-dev.sh and the docker would start not working)
+sudo ln -sf /usr/share/bigbluebutton/nginx/bbb-html5.nginx.static /usr/share/bigbluebutton/nginx/bbb-html5.nginx
 
 #Ensure that IP is correct for configs of mediasoup, kurento, freeswitch
 sudo sed -i "s/172.17.0.2/$LOCAL_IP/g" /usr/share/bigbluebutton/nginx/sip.nginx
