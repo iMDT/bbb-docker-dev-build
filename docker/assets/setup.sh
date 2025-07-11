@@ -41,7 +41,7 @@ set -e
 apt install -yq nginx
 
 # enable server logs for html5-client
-apt install nginx-full
+apt install -y nginx-full
 touch /var/log/nginx/html5-client.log
 chown www-data:adm /var/log/nginx/html5-client.log
 chmod 777 /var/log/nginx/html5-client.log
