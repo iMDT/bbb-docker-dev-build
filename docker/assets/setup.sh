@@ -31,7 +31,7 @@ chmod 1777 /tmp/
 #echo 'Acquire::http::Proxy "http://10.131.0.1:3128/";' > /etc/apt/apt.conf.d/proxy.conf
 #echo 'Acquire::https::Proxy "http://10.131.0.1:3128/";' >> /etc/apt/apt.conf.d/proxy.conf
 
-apt update 
+apt update
 
 set +e
 apt install -y redis-server
@@ -168,7 +168,7 @@ EOF
 su bigbluebutton -c bash -l << 'EOF'
     # Install build tools for bbb-web and akka-apps
     echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.profile
-    echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
+    echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile
     source ~/.profile
 
     curl -s "https://get.sdkman.io" | bash
@@ -184,9 +184,9 @@ su bigbluebutton -c bash -l << 'EOF'
         resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
         updateOptions := updateOptions.value.withCachedResolution(true)
     ' > $HOME/.sbt/1.0/global.sbt
-    
+
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    
+
     echo '
          source "$HOME/.sdkman/bin/sdkman-init.sh"
     ' >> $HOME/.zshrc
@@ -203,13 +203,13 @@ su bigbluebutton -c bash -l << 'EOF'
     #cd ~
     #git clone --single-branch --branch v3.0.x-release https://github.com/bigbluebutton/bigbluebutton.git
     #git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
-    
+
     #cd bigbluebutton
-     
+
     #cd bbb-common-message/
     #./deploy.sh
     #cd ..
-     
+
     #cd bbb-common-web/
     #./deploy.sh
     #cd ..
@@ -217,7 +217,7 @@ su bigbluebutton -c bash -l << 'EOF'
     #cd bigbluebutton-web/
     #./build.sh </dev/null
     #cd ..
-    
+
     #cd bigbluebutton-html5/
     #npm install
     #cd ..
@@ -231,6 +231,15 @@ sudo wget --no-verbose https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.
 sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
 sudo rm go${GO_VERSION}.linux-amd64.tar.gz
 sudo ln -sf /usr/local/go/bin/go /usr/bin/go
+
+# Install percona/pg_stat_monitor for Postgresql query performance monitoring
+sudo apt install -y build-essential postgresql-server-dev-14
+git clone https://github.com/percona/pg_stat_monitor.git /tmp/pg_stat_monitor
+cd /tmp/pg_stat_monitor
+make USE_PGXS=1
+sudo make USE_PGXS=1 install
+rm -rf /tmp/pg_stat_monitor
+sudo sed -i "s/#shared_preload_libraries = ''/shared_preload_libraries = 'pg_stat_monitor'/g" /etc/postgresql/14/main/postgresql.conf
 
 
 # Update files
