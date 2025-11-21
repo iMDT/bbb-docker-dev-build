@@ -174,8 +174,8 @@ su bigbluebutton -c bash -l << 'EOF'
     curl -s "https://get.sdkman.io" | bash
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-    sdk install gradle 7.3.1
-    sdk install grails 5.3.2
+    sdk install gradle 8.14.3
+    sdk install grails 7.0.0
     sdk install sbt 1.6.2
     sdk install maven 3.5.0
 
