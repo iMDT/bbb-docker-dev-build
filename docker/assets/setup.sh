@@ -31,7 +31,7 @@ chmod 1777 /tmp/
 #echo 'Acquire::http::Proxy "http://10.131.0.1:3128/";' > /etc/apt/apt.conf.d/proxy.conf
 #echo 'Acquire::https::Proxy "http://10.131.0.1:3128/";' >> /etc/apt/apt.conf.d/proxy.conf
 
-apt update 
+apt update
 
 set +e
 apt install -y redis-server
@@ -45,7 +45,7 @@ systemctl start nginx
 sudo apt install -y rsyslog
 # [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
 
-./bbb-install.sh -d -s "`hostname -f`" -v jammy-31-dev
+./bbb-install.sh -d -s "`hostname -f`" -v jammy-40-dev
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
@@ -154,7 +154,7 @@ EOF
 su bigbluebutton -c bash -l << 'EOF'
     # Install build tools for bbb-web and akka-apps
     echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.profile
-    echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile 
+    echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile
     source ~/.profile
 
     curl -s "https://get.sdkman.io" | bash
@@ -170,9 +170,9 @@ su bigbluebutton -c bash -l << 'EOF'
         resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
         updateOptions := updateOptions.value.withCachedResolution(true)
     ' > $HOME/.sbt/1.0/global.sbt
-    
+
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    
+
     echo '
          source "$HOME/.sdkman/bin/sdkman-init.sh"
     ' >> $HOME/.zshrc
@@ -189,13 +189,13 @@ su bigbluebutton -c bash -l << 'EOF'
     #cd ~
     #git clone --single-branch --branch v3.0.x-release https://github.com/bigbluebutton/bigbluebutton.git
     #git clone --single-branch --branch develop https://github.com/bigbluebutton/bigbluebutton.git
-    
+
     #cd bigbluebutton
-     
+
     #cd bbb-common-message/
     #./deploy.sh
     #cd ..
-     
+
     #cd bbb-common-web/
     #./deploy.sh
     #cd ..
@@ -203,7 +203,7 @@ su bigbluebutton -c bash -l << 'EOF'
     #cd bigbluebutton-web/
     #./build.sh </dev/null
     #cd ..
-    
+
     #cd bigbluebutton-html5/
     #npm install
     #cd ..
