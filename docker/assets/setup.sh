@@ -100,7 +100,7 @@ echo "PostgreSQL is ready."
 sudo runuser -u postgres -- psql -c "ALTER USER postgres PASSWORD 'bbb_graphql'"
 
 # Install optional packages
-sudo apt install bbb-shared-notes-server bbb-livekit
+sudo apt install -y bbb-shared-notes-server bbb-livekit
 
 
 mkdir /home/bigbluebutton/
