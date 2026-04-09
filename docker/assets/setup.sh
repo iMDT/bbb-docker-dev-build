@@ -55,7 +55,7 @@ sudo apt install -y jq
 sudo apt install -y rsyslog
 # [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
 
-./bbb-install.sh -d -s "`hostname -f`" -v jammy-30-dev
+./bbb-install.sh -d -s "`hostname -f`" -v jammy-30-dev-branch
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
@@ -99,6 +99,8 @@ done
 echo "PostgreSQL is ready."
 sudo runuser -u postgres -- psql -c "ALTER USER postgres PASSWORD 'bbb_graphql'"
 
+# Install optional packages
+sudo apt install bbb-shared-notes-server bbb-livekit
 
 
 mkdir /home/bigbluebutton/
