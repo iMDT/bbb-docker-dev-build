@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 LABEL authors="Fred Dixon, Anton Georgiev"
 
 #Force rebuild - 26.11.2021 
@@ -33,7 +33,7 @@ RUN apt-get install -y       \
   && apt-get clean           \
   && rm -rf /var/lib/apt/lists/*
 
-# -- Anticipate docker user and group creation (for ubuntu 22 docker-in-docker compatibility)
+# -- Anticipate docker user and group creation (for ubuntu 24 docker-in-docker compatibility)
 RUN groupadd -o -g 999 docker
 
 # -- Install yq 
