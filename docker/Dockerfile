@@ -3,8 +3,8 @@ LABEL authors="Fred Dixon, Anton Georgiev"
 
 #Force rebuild - 26.11.2021 
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV container docker
+ENV DEBIAN_FRONTEND=noninteractive
+ENV container=docker
 
 RUN apt-get update && apt-get install -y locales
 
@@ -63,6 +63,8 @@ ADD ./assets/setup.sh /opt/docker-bbb/setup.sh
 RUN chmod 700 /opt/docker-bbb/setup.sh
 
 
+# -- Ubuntu 24.04 ships a default "ubuntu" user at UID 1000; remove it so bigbluebutton can take 1000
+RUN userdel -r ubuntu 2>/dev/null || true
 RUN useradd bigbluebutton --uid 1000 -s /bin/bash
 RUN sh -c 'echo "bigbluebutton ALL=(ALL:ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/bigbluebutton'
 RUN sh -c 'echo "bigbluebutton:bigbluebutton" | chpasswd'
