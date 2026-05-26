@@ -95,7 +95,8 @@ bbb-conf --restart
 
 # Disable auto start (unnecessary services)
 #find /etc/systemd/ | grep wants | grep -v bigbluebutton | xargs -r -n 1 basename | grep service | grep -v networking | grep -v networking | grep -v syslog | grep -v tty   | xargs -r -n 1 -I __ systemctl disable __
-sudo systemctl disable e2scrub_reap haveged systemd-pstore systemd-timesyncd apparmor networkd-dispatcher systemd-resolved unattended-upgrades ondemand dmesg rsync
+# `|| true` so a unit that doesn't exist on this release (e.g. ondemand, removed after Ubuntu 22.04) doesn't abort the script under `set -e`
+sudo systemctl disable e2scrub_reap haveged systemd-pstore systemd-timesyncd apparmor networkd-dispatcher systemd-resolved unattended-upgrades dmesg rsync || true
 
 # Enable bbb services (that is not being enabled properly during bbb-install
 # Enabled already: bbb-apps-akka bbb-fsesl-akka bbb-rap-caption-inbox bbb-rap-resque-worker bbb-rap-starter
