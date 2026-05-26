@@ -36,12 +36,10 @@ RUN apt-get install -y       \
 # -- Anticipate docker user and group creation (for ubuntu 24 docker-in-docker compatibility)
 RUN groupadd -o -g 999 docker
 
-# -- Install yq 
-RUN LC_CTYPE=C.UTF-8 add-apt-repository ppa:rmescandon/yq && \
-  apt-get update &&          \
-  apt-get install yq -y      \
-  && apt-get clean           \
-  && rm -rf /var/lib/apt/lists/*
+# -- Install yq (mikefarah/yq - the Go version required by setup.sh's `yq e` syntax;
+#    the rmescandon PPA has no noble release, so fetch the release binary directly)
+RUN wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && \
+  chmod +x /usr/bin/yq
 
 # -- Modify systemd to be able to run inside container
 RUN apt-get update \
