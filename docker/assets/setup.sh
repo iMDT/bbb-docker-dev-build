@@ -237,7 +237,7 @@ sudo rm go${GO_VERSION}.linux-amd64.tar.gz
 sudo ln -sf /usr/local/go/bin/go /usr/bin/go
 
 # Install percona/pg_stat_monitor for Postgresql query performance monitoring
-sudo apt install -y build-essential postgresql-server-dev-14
+sudo apt install -y build-essential postgresql-server-dev-14 libkrb5-dev
 git clone https://github.com/percona/pg_stat_monitor.git /tmp/pg_stat_monitor
 cd /tmp/pg_stat_monitor
 make USE_PGXS=1
