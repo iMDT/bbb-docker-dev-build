@@ -220,6 +220,20 @@ sudo rm go${GO_VERSION}.linux-amd64.tar.gz
 sudo ln -sf /usr/local/go/bin/go /usr/bin/go
 
 
+# Install percona/pg_stat_monitor for Postgresql query performance monitoring
+# Detect the installed PostgreSQL major version (noble ships 16) so the build
+# and config paths don't stay pinned to an old release like 3.0.x's hardcoded 14.
+# libkrb5-dev is required to provide gssapi.h when compiling pg_stat_monitor.
+PG_VERSION="$(ls /etc/postgresql/ | sort -V | tail -n1)"
+sudo apt install -y build-essential postgresql-server-dev-${PG_VERSION} libkrb5-dev
+git clone https://github.com/percona/pg_stat_monitor.git /tmp/pg_stat_monitor
+cd /tmp/pg_stat_monitor
+make USE_PGXS=1
+sudo make USE_PGXS=1 install
+rm -rf /tmp/pg_stat_monitor
+sudo sed -i "s/#shared_preload_libraries = ''/shared_preload_libraries = 'pg_stat_monitor'/g" /etc/postgresql/${PG_VERSION}/main/postgresql.conf
+
+
 # Update files
 sudo apt-get -y install plocate
 sudo updatedb
