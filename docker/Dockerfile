@@ -36,8 +36,8 @@ RUN apt-get install -y       \
 # -- Anticipate docker user and group creation (for ubuntu 24 docker-in-docker compatibility)
 RUN groupadd -o -g 999 docker
 
-# -- yq is installed by bbb-install.sh as a package dependency (noble's apt `yq`),
-#    so it no longer needs to be installed here.
+# -- yq-go (mikefarah/yq) is installed by bbb-install.sh via the required
+#    bbb-yq-go package, so it no longer needs to be installed here.
 
 # -- Modify systemd to be able to run inside container
 RUN apt-get update \

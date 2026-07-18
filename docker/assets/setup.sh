@@ -70,12 +70,12 @@ sudo sed -i '/^location \/html5client\/__meteor__\/dynamic-import\/fetch/,+11 s/
 sudo touch /etc/bigbluebutton/bbb-html5.yml;
 
 #html5: set audio via http
-sudo yq -y -i '.public.media.sipjsHackViaWs = true' /etc/bigbluebutton/bbb-html5.yml
+sudo yq-go e -i '.public.media.sipjsHackViaWs = true' /etc/bigbluebutton/bbb-html5.yml
 
 #Enable Hasura console and set password to 'bigbluebutton'
 echo "HASURA_GRAPHQL_ENABLE_CONSOLE=true" | sudo tee -a /etc/bigbluebutton/bbb-graphql-server.env
 sudo sed -i 's/HASURA_GRAPHQL_ADMIN_SECRET=.*/HASURA_GRAPHQL_ADMIN_SECRET=bigbluebutton/g' /etc/default/bbb-graphql-server-admin-pass
-sudo yq -y -i ".admin_secret = \"bigbluebutton\"" /usr/share/bbb-graphql-server/config.yaml
+sudo yq-go e -i ".admin_secret = \"bigbluebutton\"" /usr/share/bbb-graphql-server/config.yaml
 
 #Set graphql database password to 'bbb_graphql'
 until sudo runuser -u postgres -- psql -c "SELECT 1" > /dev/null 2>&1; do
