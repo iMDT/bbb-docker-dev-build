@@ -46,6 +46,13 @@ sudo apt install -y rsyslog
 # [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
 
 ./bbb-install.sh -d -s "`hostname -f`" -v noble-40-dev
+
+# Install the 4 extra playback format packages (presentation is already installed by bbb-install).
+# Installed here (image build time, apt is healthy) so every container is born with all 5 formats
+# available. NOT activated in recording.yml - activation is opt-in by whoever needs it
+# (processing 5 formats costs minutes of CPU per recording; default stays presentation-only).
+apt install -y bbb-playback-notes bbb-playback-screenshare bbb-playback-podcast bbb-playback-video
+
 sed -i 's/::/0.0.0.0/g' /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
 
 # Change the nginx lines
