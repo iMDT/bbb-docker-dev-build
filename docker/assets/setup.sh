@@ -107,7 +107,10 @@ sudo systemctl disable e2scrub_reap haveged systemd-pstore systemd-timesyncd app
 
 # Enable bbb services (that is not being enabled properly during bbb-install
 # Enabled already: bbb-apps-akka bbb-fsesl-akka bbb-rap-caption-inbox bbb-rap-resque-worker bbb-rap-starter
-sudo systemctl enable bbb-export-annotations bbb-pads bbb-web bbb-webrtc-sfu etherpad freeswitch bbb-graphql-server bbb-graphql-middleware bbb-graphql-actions
+# Enable one by one so a unit that doesn't exist on this release (e.g. bbb-pads/etherpad replaced by bbb-shared-notes-server in 4.0) doesn't abort the script under `set -e`
+for svc in bbb-export-annotations bbb-pads bbb-web bbb-webrtc-sfu etherpad bbb-shared-notes-server freeswitch bbb-graphql-server bbb-graphql-middleware bbb-graphql-actions; do
+  sudo systemctl enable "$svc" || echo "Unit $svc does not exist, skipping"
+done
 
 # After starting bbb-graphql-server we can configure Hasura
 sudo systemctl daemon-reload
