@@ -45,7 +45,7 @@ systemctl start nginx
 sudo apt install -y rsyslog
 # [ -f /etc/systemd/system/syslog.service ] || sudo ln -s /lib/systemd/system/rsyslog.service /etc/systemd/system/syslog.service
 
-./bbb-install.sh -d -s "`hostname -f`" -v noble-40-dev
+./bbb-install.sh -d -s "`hostname -f`" -v noble-41-dev
 
 # Install the 4 extra playback format packages (presentation is already installed by bbb-install).
 # Installed here (image build time, apt is healthy) so every container is born with all 5 formats
