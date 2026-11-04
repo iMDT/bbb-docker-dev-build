@@ -21,7 +21,6 @@ RUN apt-get install -y       \
   htop                       \
   btop                       \
   iputils-ping               \
-  language-pack-en           \
   net-tools                  \
   software-properties-common \
   strace                     \
