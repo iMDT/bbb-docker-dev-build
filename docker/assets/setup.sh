@@ -131,8 +131,7 @@ apt install -y zsh
 # Install build tools for record-and-playback
 apt install -y ruby-dev libsystemd-dev
 
-# Install build tools for java
-apt-get install -y git-core ant ant-contrib openjdk-17-jdk-headless
+apt-get install -y git-core
 
 # Install api-mate to run locally
 sudo mkdir /usr/share/api-mate
@@ -147,8 +146,10 @@ git checkout 4682fdba2b63007f13a632c6eb06f0ece84cb7df #Set an old commit as the 
 cmake . -DUSE_SSL=1 -DUSE_SCTP=1 -DUSE_PCAP=1 -DUSE_GSL=1
 make
 sudo make install
-rm -r /opt/sipp/gtest
-rm -r /opt/sipp/src
+cd /
+echo "SIPp is installed: removing its build tree (keeping /opt/sipp/pcap, which 'sipp -sn uac_pcap' plays) and the packages only its build needed"
+find /opt/sipp -mindepth 1 -maxdepth 1 ! -name pcap -exec rm -rf {} +
+apt-get purge -y cmake dh-autoreconf libpcap-dev libsctp-dev libncurses-dev
 
 # Set dial plan for internal calls
 cat << EOF > "/opt/freeswitch/conf/dialplan/public/bbb_sip.xml"
@@ -164,17 +165,16 @@ EOF
 
 su bigbluebutton -c bash -l << 'EOF'
     # Install build tools for bbb-web and akka-apps
-    echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.profile
+    echo "export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64" >> ~/.profile
     echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile
     source ~/.profile
 
     curl -s "https://get.sdkman.io" | bash
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-    sdk install gradle 7.3.1
-    sdk install grails 5.3.2
-    sdk install sbt 1.6.2
-    sdk install maven 3.5.0
+    # sbt launcher only: bbb-web builds with ./gradlew and nothing uses grails or maven. The
+    # launcher fetches the sbt version each project pins into the mounted ~/.ivy2.
+    sdk install sbt 1.10.7
 
     mkdir -p ~/.sbt/1.0
     echo '
@@ -187,6 +187,9 @@ su bigbluebutton -c bash -l << 'EOF'
     echo '
          source "$HOME/.sdkman/bin/sdkman-init.sh"
     ' >> $HOME/.zshrc
+
+    # sdkman keeps every downloaded archive; 300 MB of zips nobody reads again
+    rm -rf $HOME/.sdkman/tmp/* $HOME/.sdkman/archives/*
 
     # Create sbt/maven/gradle/npm directories to set bigbluebutton as owner
     mkdir -p $HOME/.ivy2
@@ -223,10 +226,12 @@ su bigbluebutton -c bash -l << 'EOF'
 EOF
 
 # Install build tools for bbb-graphql-middleware
-GO_VERSION=1.23.6
+# The version bbb-graphql-middleware's go.mod asks for; an older toolchain makes every fresh
+# container download the right one into the unpersisted home on the first "go run".
+GO_VERSION=1.27.3
 sudo wget --no-verbose https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
-sudo rm go${GO_VERSION}.linux-amd64.tar.gz
+sudo rm -rf go${GO_VERSION}.linux-amd64.tar.gz /usr/local/go/test /usr/local/go/doc /usr/local/go/misc /usr/local/go/api
 sudo ln -sf /usr/local/go/bin/go /usr/bin/go
 
 
@@ -240,7 +245,12 @@ git clone https://github.com/percona/pg_stat_monitor.git /tmp/pg_stat_monitor
 cd /tmp/pg_stat_monitor
 make USE_PGXS=1
 sudo make USE_PGXS=1 install
+cd /
 rm -rf /tmp/pg_stat_monitor
+# postgresql-server-dev pulls the LLVM and clang development packages (about 650 MB); only the
+# built extension is needed from here on. clang-17 and llvm-17-dev are named because dpkg-dev
+# (build-essential) recommends a C compiler and clang would otherwise be kept to satisfy it.
+sudo apt-get purge -y --autoremove postgresql-server-dev-${PG_VERSION} libkrb5-dev clang-17 llvm-17-dev
 sudo sed -i "s/#shared_preload_libraries = ''/shared_preload_libraries = 'pg_stat_monitor'/g" /etc/postgresql/${PG_VERSION}/main/postgresql.conf
 
 
@@ -248,17 +258,30 @@ sudo sed -i "s/#shared_preload_libraries = ''/shared_preload_libraries = 'pg_sta
 sudo apt-get -y install plocate
 sudo updatedb
 
-# Clear docker
-sudo systemctl stop docker.socket
-sudo find /var/lib/docker/ -mindepth 1 -maxdepth 1 | xargs sudo rm -rf || true
-
-# Uninstall docker daemon (as we use docker-ce)
-sudo apt remove -y docker-ce
+# Clear docker: the container talks to the host's daemon through /docker.sock, so the daemon,
+# containerd and the plugins installed by bbb-install go, only the CLI stays. The image data the
+# inner daemon wrote during the install (the bbb-soffice image) lives under /var/lib/containerd
+# as well as /var/lib/docker.
+sudo systemctl stop docker.socket docker containerd || true
+sudo apt-get purge -y docker-ce docker-ce-rootless-extras containerd.io docker-buildx-plugin docker-compose-plugin
+sudo rm -rf /var/lib/containerd
+sudo find /var/lib/docker -mindepth 1 -maxdepth 1 -exec rm -rf {} +   # a volume mount in the build container, so not removable itself
 echo "DOCKER_HOST=unix:///docker.sock" | sudo tee -a /etc/environment
 
 # Avoid deleting /tmp files on boot (because now container mounts the host /tmp)
 # Disable /tmp cleaner
 sudo sed -e '/\/tmp/ s/^#*/#/' -i /usr/lib/tmpfiles.d/tmp.conf
+
+# What the install run leaves behind: apt lists (recreated by apt update), the download cache,
+# the journal and logs of the install. (~/.cache and ~/.npm are host volumes at run time.)
+sudo apt-get clean
+sudo rm -rf /var/lib/apt/lists/*
+sudo journalctl --rotate && sudo journalctl --vacuum-time=1s
+sudo find /var/log -type f -name '*.gz' -delete
+# -c: with fs.protected_regular, root cannot do a creating open on another user's file in a sticky directory
+sudo find /var/log -type f \( -name '*.log' -o -name '*.log.*' -o -name 'syslog*' \) -exec truncate -c -s 0 {} +
+sudo rm -rf /root/.cache /root/.npm
+sudo updatedb
 
 echo "BBB configuration completed."
 exit 0;
