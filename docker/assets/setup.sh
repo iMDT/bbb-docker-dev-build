@@ -163,18 +163,26 @@ cat << EOF > "/opt/freeswitch/conf/dialplan/public/bbb_sip.xml"
 </include>
 EOF
 
+# sbt launcher from the sbt release, pinned and checksummed. bbb-web builds with ./gradlew and
+# nothing uses grails or maven, so this is the only build tool installed by hand; the launcher
+# fetches the sbt version each project pins into the mounted ~/.ivy2. The tarball also carries
+# native clients for macOS, aarch64 and Windows (118 MB); only the Linux x86_64 one stays.
+SBT_VERSION=1.10.7
+SBT_SHA256=32c15233c636c233ee25a2c31879049db7021cfef70807c187515c39b96b0fe6
+curl -fsSL -o /tmp/sbt.tgz "https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz"
+echo "${SBT_SHA256}  /tmp/sbt.tgz" | sha256sum -c
+tar -xzf /tmp/sbt.tgz -C /opt
+rm /tmp/sbt.tgz
+find /opt/sbt/bin -name 'sbtn-*' ! -name 'sbtn-x86_64-pc-linux' -delete
+
 su bigbluebutton -c bash -l << 'EOF'
-    # Install build tools for bbb-web and akka-apps
+    # A failed step here must fail the build instead of publishing an image without the tool
+    set -e
+
     echo "export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64" >> ~/.profile
-    echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.profile
+    echo 'export PATH="/opt/sbt/bin:$PATH"' >> ~/.profile
     source ~/.profile
-
-    curl -s "https://get.sdkman.io" | bash
-    source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-    # sbt launcher only: bbb-web builds with ./gradlew and nothing uses grails or maven. The
-    # launcher fetches the sbt version each project pins into the mounted ~/.ivy2.
-    sdk install sbt 1.10.7
+    sbt --script-version
 
     mkdir -p ~/.sbt/1.0
     echo '
@@ -184,12 +192,7 @@ su bigbluebutton -c bash -l << 'EOF'
 
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-    echo '
-         source "$HOME/.sdkman/bin/sdkman-init.sh"
-    ' >> $HOME/.zshrc
-
-    # sdkman keeps every downloaded archive; 300 MB of zips nobody reads again
-    rm -rf $HOME/.sdkman/tmp/* $HOME/.sdkman/archives/*
+    echo 'export PATH="/opt/sbt/bin:$PATH"' >> $HOME/.zshrc
 
     # Create sbt/maven/gradle/npm directories to set bigbluebutton as owner
     mkdir -p $HOME/.ivy2
