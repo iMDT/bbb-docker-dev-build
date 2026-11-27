@@ -2,44 +2,44 @@ Origin: BigBlueButton
 Label: BigBlueButton
 Suite: noble-41-dev
 Codename: bigbluebutton-noble
-Date: Wed, 25 Nov 2026 16:56:18 UTC
+Date: Thu, 26 Nov 2026 14:50:43 UTC
 Architectures: amd64 arm64
 Components: main
 Description: BigBlueButton APT repository (noble-41-dev)
 MD5Sum:
- 4206668ee54e8403f00a881d2f51db36 26735 main/binary-amd64/Packages
- e49d6f4112e973797c59553735c1053f 6547 main/binary-amd64/Packages.gz
- bb9942fa67192474b040c35a2e15c566 6335 main/binary-amd64/Packages.bz2
+ ad36ee3e463cab743ad511ebcde1c639 26888 main/binary-amd64/Packages
+ 9ffdfb9a6d05ff55a87e39484e2aefe5 6491 main/binary-amd64/Packages.gz
+ c93bd15c844d5ce91be4a582fd86a3f1 6256 main/binary-amd64/Packages.bz2
  2cc2638013c88bff26ffe79d045164e6 158 main/binary-amd64/Release
- 9454e0839cc04a7185d0f5319cb92bfd 2686 main/binary-arm64/Packages
- 35362bc201ee61ac6240ac81418266c7 1127 main/binary-arm64/Packages.gz
- c915f7567f6f4b4457a1e2cfc0f25175 1290 main/binary-arm64/Packages.bz2
+ 4deba9e10191f17337a501b4eb077e49 2686 main/binary-arm64/Packages
+ 29e7c068a801d9f974746832f5d98289 1128 main/binary-arm64/Packages.gz
+ 35f9e5b9e731d27773132397ca793fac 1291 main/binary-arm64/Packages.bz2
  ff774b3102e737b81e6b184a3be143ea 158 main/binary-arm64/Release
  d41d8cd98f00b204e9800998ecf8427e 0 main/source/Sources
  7029066c27ac6f5ef18d660d5741979a 20 main/source/Sources.gz
  4059d198768f9f8dc9372dc1c54bc3c3 14 main/source/Sources.bz2
  e23baff85a8a56e3c4d0c136b578c555 159 main/source/Release
 SHA1:
- b8236adcbae3d772b2850b683b4cdb1a3f88cd45 26735 main/binary-amd64/Packages
- f6c41fec3fb60bb921b5b002ab30ba76bfcba76e 6547 main/binary-amd64/Packages.gz
- 7c5b1c054883dbe812415c681d627d814dddbca6 6335 main/binary-amd64/Packages.bz2
+ f86e1515f67e84fde26755f377575917aafec0b7 26888 main/binary-amd64/Packages
+ 836d8577994eb048f9ad1d513937d154bd843270 6491 main/binary-amd64/Packages.gz
+ 570163da2b1e231802223e3bce8848acddf0bbe3 6256 main/binary-amd64/Packages.bz2
  e9ba514c23a7d5117ee621d7aedccfd263fb784e 158 main/binary-amd64/Release
- e4e8ce4ea2cb3121534540b5a8f236cd6bb720ac 2686 main/binary-arm64/Packages
- 98a144881a4f3d4874e973bc4b5eb1484f945817 1127 main/binary-arm64/Packages.gz
- 38000fd80d43756ee11b28ca27ad1cb542e046e5 1290 main/binary-arm64/Packages.bz2
+ a2a6a7c9e1722243e2908e0a85a6ff0acefb2c68 2686 main/binary-arm64/Packages
+ 887fe6ba49dd83f20ba361c2e555bf39c917a81a 1128 main/binary-arm64/Packages.gz
+ 7c9db3bbb17fafae8b3b7cfc8d4b7c7c088b8e18 1291 main/binary-arm64/Packages.bz2
  9db148b4c9088444191c4ebf0ebb80ad47719af4 158 main/binary-arm64/Release
  da39a3ee5e6b4b0d3255bfef95601890afd80709 0 main/source/Sources
  46c6643f07aa7f6bfe7118de926b86defc5087c4 20 main/source/Sources.gz
  64a543afbb5f4bf728636bdcbbe7a2ed0804adc2 14 main/source/Sources.bz2
  744e2b64ab26d45c373c4a64ac5c68f71c79f818 159 main/source/Release
 SHA256:
- 5f73dbf68fbe43f04ac392be97db3e64d94e869d1cad241e774af913d45402e0 26735 main/binary-amd64/Packages
- f3f774b4191455eb45a3ed20b35d19ad239ae1c7c8506d5e2c63ef5e767ad0d0 6547 main/binary-amd64/Packages.gz
- e2f88744d0e1c8863e137d1e24c5839d5b73ef2739dbff3d6b6540c252307aa1 6335 main/binary-amd64/Packages.bz2
+ 53415e7cb767ca03f72185d68894fd977bfcc8574bc07cd6f44239ad12538667 26888 main/binary-amd64/Packages
+ 477cb7420c6ea39e92f502cbb74eba5099ebaaf5ebb9b7d50c2c903f9f139990 6491 main/binary-amd64/Packages.gz
+ 561494678944408c39f7e13a8a253f71a3aafabf125de0169f1b315496ebd7c0 6256 main/binary-amd64/Packages.bz2
  5668fa558390a1c22bc6bb149f502e02fcfcb8ef78436d9a24ed429a84c2362b 158 main/binary-amd64/Release
- 84f85ffbdc2c97f29fa525e40be857f58ffb7e4e0996fdba19edaef2312a2270 2686 main/binary-arm64/Packages
- f9a52648f5669ed58365bd85c0f923f5c99c0d8a2eca5cb0f314d64d97b128e8 1127 main/binary-arm64/Packages.gz
- 7e5511f56702c3f52ffb77e13d40d50e07abc3e95137e21efd414d76829b98a6 1290 main/binary-arm64/Packages.bz2
+ db66491e9e9313006d6de3594ed42f63f87f3999b3335cf6263ce7b498ae3f33 2686 main/binary-arm64/Packages
+ d30e03db5a07f5526ddaae239b88f00f6f3d7c9803e53c2d3da769fbf5d01d3d 1128 main/binary-arm64/Packages.gz
+ 4964394457809c6749dba1436c4f40a9c90a2a432c7d894a8b246d18cd901718 1291 main/binary-arm64/Packages.bz2
  84fba0ede89cf743833f09e7b6ba7a2c9a3dcf15ee5f1cac5591c55fd9351464 158 main/binary-arm64/Release
  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/source/Sources
  59869db34853933b239f1e2219cf7d431da006aa919635478511fabbfc8849d2 20 main/source/Sources.gz
